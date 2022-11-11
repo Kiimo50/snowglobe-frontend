@@ -53,7 +53,7 @@ export default {
       return this.meta.filter(
         (token) =>
           typeof this.claim.specials[token.tokenId] !== 'undefined' &&
-          this.claim.specials[token.tokenId] > 1
+          this.claim.specials[token.tokenId] > 0
       );
     },
   },

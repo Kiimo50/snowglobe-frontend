@@ -2,6 +2,8 @@ const { network, ethers } = require('hardhat');
 const curioABI = require('./abi.json');
 const TestClaims = require('./test-claims.json');
 
+console.log('starting setup.js');
+
 (async () => {
   const [deployer] = await ethers.getSigners();
 

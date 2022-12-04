@@ -1,38 +1,33 @@
 <template>
   <div class="container mx-auto">
-    <h1 class="">Curio Cards</h1>
-    <button v-if="!isConnected" @click="connect">Connect Wallet</button>
-    <button v-if="isConnected" @click="disconnect">Disconnect</button>
-    <curio-claim v-if="isConnected" :claim="claim" @claim="initClaim" />
-    <section id="wallet" v-if="isConnected">
-      <h2>Wallet</h2>
+
+    <aside class="transaction-status">
       <p v-if="isConnected">Connected: {{ walletAddress }}</p>
-      <div>
-        <div
-          v-for="token in tokensOwned"
-          :key="token.tokenId"
-          class="walletToken"
-        >
-          <img :src="`/assets/images/${token.tokenId}.jpg`" width="300" />
-          <div class="tokenBalance">x{{ token.balance }}</div>
-          <div>
-            #{{ token.tokenId }} - {{ meta[token.tokenId].name }}
-            <button
-              v-if="meta[token.tokenId].bundle"
-              @click="initUnbundle(token.tokenId)"
-            >
-              Unbundle
-            </button>
-          </div>
-        </div>
-      </div>
-    </section>
-    <curio-bundle
-      v-if="isConnected"
-      :balances="balances"
-      @confirm="initBundle"
-    />
-    
+      <p v-else>Not Connected</p>
+    </aside>
+
+    <main>
+      <section>
+        <h1 class="">Curio Snowglobes</h1>
+        <button v-if="!isConnected" @click="connect">Connect Wallet</button>
+
+        <curio-claim v-if="isConnected" :claim="claim" @claim="initClaim" />
+      </section>
+
+      isConnected? {{ isConnected }}
+      <curio-wallet
+        :balances="balances"
+        :isConnected="isConnected"
+        :claim="claim"
+      />
+
+      <curio-bundle
+        :balances="balances"
+        @confirm="initBundle"
+      />
+      
+    </main>
+
     <div class="modal" v-if="transaction.processing">
       <div class="backdrop"></div>
       <div class="modalContainer">
@@ -58,6 +53,7 @@
     </div>
   </div>
 </template>
+
 <script>
 const ethers = require('ethers');
 const WalletConnectProvider = require('./lib/walletconnect.bundle').default;
@@ -81,11 +77,13 @@ const CurioABI = [
 let web3Modal, Provider, Signer, CURIO;
 
 import ClaimComponent from './components/Claim.vue';
+import WalletComponent from './components/Wallet.vue';
 import BundleComponent from './components/Bundle.vue';
 
 export default {
   components: {
     'curio-claim': ClaimComponent,
+    'curio-wallet': WalletComponent,
     'curio-bundle': BundleComponent,
   },
 

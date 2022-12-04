@@ -1,6 +1,9 @@
 <template>
   <section id="bundle">
     <h2>Bundles</h2>
+
+    <h3>model</h3>
+
     <div>
       <div
         v-for="token in bundleTokens"
@@ -10,7 +13,7 @@
         <img
           :src="`/assets/images/${token.tokenId}.jpg`"
           width="150"
-          :class="{ 'grayscale': !validateBundle(token.tokens) }"
+          :class="{ 'grayscale': !validateBundle(token.tokenId) }"
         />
         <div>
           <h3>{{ token.name }}</h3>
@@ -40,6 +43,7 @@
     </div>
   </section>
 </template>
+
 <script>
 const Meta = require('../data/meta.json');
 

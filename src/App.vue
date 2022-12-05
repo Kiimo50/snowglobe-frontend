@@ -1,27 +1,25 @@
 <template>
   <div class="container mx-auto">
-
-    <aside class="transaction-status">
-      <p v-if="isConnected">Connected: {{ walletAddress }}</p>
-      <p v-else>Not Connected</p>
-    </aside>
-
+    <status
+      :isConnected="isConnected"
+      :walletAddress="walletAddress"
+    />
     <main>
       <section>
-        <h1 class="">Curio Snowglobes</h1>
+        <h1 class="">Curio Sneed</h1>
         <button v-if="!isConnected" @click="connect">Connect Wallet</button>
 
-        <curio-claim v-if="isConnected" :claim="claim" @claim="initClaim" />
+        <claim v-if="isConnected" :claim="claim" @claim="initClaim" />
       </section>
 
       isConnected? {{ isConnected }}
-      <curio-wallet
+      <wallet
         :balances="balances"
         :isConnected="isConnected"
         :claim="claim"
       />
 
-      <curio-bundle
+      <bundle
         :balances="balances"
         @confirm="initBundle"
       />
@@ -79,12 +77,14 @@ let web3Modal, Provider, Signer, CURIO;
 import ClaimComponent from './components/Claim.vue';
 import WalletComponent from './components/Wallet.vue';
 import BundleComponent from './components/Bundle.vue';
+import StatusBarComponent from './components/StatusBar.vue';
 
 export default {
   components: {
-    'curio-claim': ClaimComponent,
-    'curio-wallet': WalletComponent,
-    'curio-bundle': BundleComponent,
+    'claim': ClaimComponent,
+    'wallet': WalletComponent,
+    'bundle': BundleComponent,
+    'status': StatusBarComponent,
   },
 
   data() {

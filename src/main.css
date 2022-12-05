@@ -1,87 +1,43 @@
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
-
-@layer components {
-  h1 {
-    @apply text-curio-orange text-2xl text-center;
-  }
-
-  h2 {
-    @apply text-lg font-bold;
-  }
-
-  h3 {
-    @apply font-bold;
-  }
-
-  button {
-    @apply inline-flex items-center rounded-md border border-transparent bg-curio-orange/80 px-4 py-2 text-sm font-medium text-white shadow-sm hover:bg-curio-orange focus:outline-none focus:ring-2 focus:bg-curio-orange focus:ring-offset-2;
-  }
-
-  button.cancel {
-    @apply bg-curio-orange/20 hover:bg-curio-orange/30 focus:bg-curio-orange/30 text-curio-orange;
-  }
-
-  #wallet > div {
-    @apply grid grid-cols-2 md:grid-cols-4 gap-4 bg-curio-orange/20 p-4;
-  }
-
-  #wallet button {
-    @apply mt-1;
-  }
-
-  .walletToken {
-    position: relative;
-  }
-
-  .tokenBalance {
-    @apply absolute bg-white/50 text-white top-0 left-0 p-2;
-  }
-
-  #bundle {
-    @apply bg-slate-100 p-4;
-  }
-
-  #bundle > div {
-    @apply grid grid-cols-1 md:grid-cols-2 gap-4;
-  }
-
-  .bundleToken {
-    @apply flex;
-  }
-
-  .bundleToken img {
-    @apply flex-shrink-0;
-  }
-
-  .bundleToken > div {
-    @apply flex-1 p-2;
-  }
-
-  .modal {
-    @apply relative z-10;
-  }
-
-  .modal .backdrop {
-    @apply fixed inset-0 bg-gray-500 bg-opacity-75 transition-opacity;
-  }
-
-  .modal .modalContainer {
-    @apply fixed inset-0 z-10 overflow-y-auto;
-  }
-
-  .modal .modalContainer > div {
-    @apply flex min-h-full items-end justify-center p-4 text-center sm:items-center sm:p-0;
-  }
-
-  .modal .modalContainer > div > div {
-    @apply relative transform overflow-hidden rounded-lg bg-white px-4 pt-5 pb-4 text-left shadow-xl transition-all sm:my-8 sm:w-full sm:max-w-sm sm:p-6
-  }
-
-  .modal pre {
-    @apply whitespace-pre-wrap break-words text-xs my-2;
-    max-height: 10em;
-    overflow: scroll;
-  }
+html, body, div, span, applet, object, iframe,
+h1, h2, h3, h4, h5, h6, p, blockquote, pre,
+a, abbr, acronym, address, big, cite, code,
+del, dfn, em, img, ins, kbd, q, s, samp,
+small, strike, strong, sub, sup, tt, var,
+b, u, i, center,
+dl, dt, dd, ol, ul, li,
+fieldset, form, label, legend,
+table, caption, tbody, tfoot, thead, tr, th, td,
+article, aside, canvas, details, embed, 
+figure, figcaption, footer, header, hgroup, 
+menu, nav, output, ruby, section, summary,
+time, mark, audio, video {
+	margin: 0;
+	padding: 0;
+	border: 0;
+	font-size: 100%;
+	font: inherit;
+	vertical-align: baseline;
+}
+/* HTML5 display-role reset for older browsers */
+article, aside, details, figcaption, figure, 
+footer, header, hgroup, menu, nav, section {
+	display: block;
+}
+body {
+	line-height: 1;
+}
+ol, ul {
+	list-style: none;
+}
+blockquote, q {
+	quotes: none;
+}
+blockquote:before, blockquote:after,
+q:before, q:after {
+	content: '';
+	content: none;
+}
+table {
+	border-collapse: collapse;
+	border-spacing: 0;
 }

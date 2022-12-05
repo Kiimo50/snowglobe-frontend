@@ -3,7 +3,7 @@
     <h2>Wallet</h2>
 
     <div>
-      <div
+      <figure
         v-for="token in snowglobeTokens"
         :key="token.tokenId"
         class="snowglobeToken"
@@ -24,7 +24,7 @@
             <h4 v-else>∞</h4>
           </div>
         </div>
-      </div>
+      </figure>
     </div>
 
   </section>

@@ -5,7 +5,7 @@
       :walletAddress="walletAddress"
     />
     <main>
-        <hero/>
+        <hero />
         <!-- <button v-if="!isConnected" @click="connect">Connect Wallet</button>
         <claim v-if="isConnected" :claim="claim" @claim="initClaim" /> -->
 
@@ -225,6 +225,7 @@ export default {
             Object.keys(Array(totalTokenTypes).fill(0)).map((i) => Number(i))
           )
         ).map((balance) => balance.toNumber());
+        console.log(balances);
 
         this.balances = balances;
         this.tokensOwned = balances.reduce((owned, balance, tokenId) => {

@@ -102,11 +102,15 @@ body {
 
   .card__img {
     width: 100%;
+    transition: 150ms ease-in-out;
+  }
+
+  .grayscale {
     -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
     filter: grayscale(100%);
     opacity: 0.5;
-    transition: 150ms ease-in-out;
   }
+
   .card__cell {
     height: 32px;   
     width: 100%; 

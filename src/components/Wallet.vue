@@ -7,24 +7,25 @@
         :key="token.tokenId"
         class="card snowglobeToken"
       >
-          <img
-            :src="`/assets/images/${token.tokenId}.jpg`"
-            width="150"
-            :class="{ 'grayscale': !tokenOwned(token.tokenId) }"
-            class="card__img"
-          />
-          <p class="card__cell card__cell--name">{{ token.name }}</p>
-          <div class="card__cell card__cell--supply" v-if="isConnected">
-            <h4 v-if="totalSupply[token.tokenId] !== 0">{{ claim.specials[token.tokenId] }} / {{ totalSupply[token.tokenId] }} left</h4>
-            <h4 v-else>UNLIMITED</h4>
-          </div>
-          <div class="card__cell card__cell--supply" v-else>
-            <h4 v-if="totalSupply[token.tokenId] !== 0">{{ totalSupply[token.tokenId] }}x</h4>
-            <h4 v-else>∞</h4>
-          </div>
-          <div class="card__cell card__cell--owned">
-            <h4>NOT IN WALLET</h4>
-          </div>
+        <img
+          :src="`/assets/images/${token.tokenId}.jpg`"
+          width="150"
+          :class="{ 'grayscale': tokenOwned(token.tokenId) === 0}"
+          class="card__img"
+        />
+        <p class="card__cell card__cell--name">{{ token.name }}</p>
+        <div class="card__cell card__cell--supply" v-if="isConnected">
+          <h4 v-if="totalSupply[token.tokenId] !== 0">{{ claim.specials[token.tokenId] }} / {{ totalSupply[token.tokenId] }} left</h4>
+          <h4 v-else>UNLIMITED</h4>
+        </div>
+        <div class="card__cell card__cell--supply" v-else>
+          <h4 v-if="totalSupply[token.tokenId] !== 0">{{ totalSupply[token.tokenId] }}x</h4>
+          <h4 v-else>∞</h4>
+        </div>
+        <div class="card__cell card__cell--owned">
+          <h4 v-if="(tokenOwned(token.tokenId) > 0)">{{ tokenOwned(token.tokenId) }} COLLECTED</h4>
+          <h4 v-else>NOT IN WALLET</h4>
+        </div>
       </figure>
     </div>
 
@@ -122,7 +123,7 @@ export default {
 
   methods: {
     tokenOwned(tokenId) {
-      return this.balances[tokenId] !== 0;
+      return this.balances[tokenId];
     },
   },
 

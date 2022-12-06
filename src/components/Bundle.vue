@@ -1,26 +1,26 @@
 <template>
-  <section id="bundle">
-    <h2>Bundles</h2>
-
-    <h3>model</h3>
-
-    <div>
+  <section class="bundle__wrapper" id="bundle">
+    <div class="card__wrapper--bundle">
       <div
         v-for="token in bundleTokens"
         :key="token.tokenId"
-        class="bundleToken"
+        class="card bundleToken"
       >
         <img
           :src="`/assets/images/${token.tokenId}.jpg`"
           width="150"
           :class="{ 'grayscale': !validateBundle(token.tokenId) }"
+          class="card__img"
         />
-        <div>
+        <div class="card__cell card__cell--name">
           <h3>{{ token.name }}</h3>
-          <p>This bundle requires tokens {{ token.tokens }}.</p>
-          <button v-if="validateBundle(token.tokens)" @click="bundleNow(token)">
+          <!-- <p>This bundle requires tokens {{ token.tokens }}.</p> -->
+          <!-- <button v-if="validateBundle(token.tokens)" @click="bundleNow(token)">
             Bundle
-          </button>
+          </button> -->
+        </div>
+        <div class="card__cell card__cell--owned">
+          <h4>Ineligible</h4>
         </div>
       </div>
     </div>
@@ -43,6 +43,54 @@
     </div>
   </section>
 </template>
+
+<style>
+
+  .card__wrapper--bundle {
+    display: grid;
+    grid-template-columns: 1fr;
+    justify-items: center;
+    grid-gap: 16px;
+  }
+
+  .bundle__wrapper {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-content: center;
+    align-items: center;
+    padding-top: 32px;
+    padding-bottom: 32px;
+  }
+
+  .bundleToken{
+    width: 200px;
+  }
+
+
+  @media only screen and (min-width: 768px) {
+    .bundle__wrapper {
+      overflow: scroll;
+      border-left: var(--border);
+      border-right: var(--border);
+      padding-top: 64px;
+      padding-bottom: 32px;
+      height: calc(100vh - 96px);
+      align-content: flex-start;
+      align-items: center;
+      justify-content: flex-start;
+    }
+
+    }
+
+  @media only screen and (min-width: 1280px) {
+    .card__wrapper--bundle {
+      grid-template-columns: 1fr 1fr;
+    }
+  }
+    
+
+</style>
 
 <script>
 const Meta = require('../data/meta.json');

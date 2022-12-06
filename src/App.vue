@@ -5,14 +5,10 @@
       :walletAddress="walletAddress"
     />
     <main>
-      <section>
-        <h1 class="">Curio Sneed</h1>
-        <button v-if="!isConnected" @click="connect">Connect Wallet</button>
+        <hero/>
+        <!-- <button v-if="!isConnected" @click="connect">Connect Wallet</button>
+        <claim v-if="isConnected" :claim="claim" @claim="initClaim" /> -->
 
-        <claim v-if="isConnected" :claim="claim" @claim="initClaim" />
-      </section>
-
-      isConnected? {{ isConnected }}
       <wallet
         :balances="balances"
         :isConnected="isConnected"
@@ -52,6 +48,19 @@
   </div>
 </template>
 
+<style>
+  main
+  {
+    display: grid;
+  }
+
+  @media only screen and (min-width: 768px) {
+    main{
+      grid-template-columns: 1fr 1fr 1fr;
+    }
+  }
+</style>
+
 <script>
 const ethers = require('ethers');
 const WalletConnectProvider = require('./lib/walletconnect.bundle').default;
@@ -78,6 +87,7 @@ import ClaimComponent from './components/Claim.vue';
 import WalletComponent from './components/Wallet.vue';
 import BundleComponent from './components/Bundle.vue';
 import StatusBarComponent from './components/StatusBar.vue';
+import HeroComponent from './components/Hero.vue';
 
 export default {
   components: {
@@ -85,6 +95,7 @@ export default {
     'wallet': WalletComponent,
     'bundle': BundleComponent,
     'status': StatusBarComponent,
+    'hero': HeroComponent
   },
 
   data() {

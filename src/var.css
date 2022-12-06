@@ -11,9 +11,12 @@
     --blueLight: #7398DC;
     /* border */
     --border: 1px solid var(--borderGray);
+    --borderWhite: 1px solid var(--white);
     /* glow */
-    --glowButton: box-shadow: 0px 0px 32px rgba(255, 255, 255, 0.2);
-    --glowText: text-shadow: 0px 0px 8px (var(--blueLight));
+    --glowButton: 0px 0px 32px rgba(255, 255, 255, 0.2);
+    --glowText: 0px 0px 8px (var(--blueLight));
+    /* sizing */
+    --statusHeight: 40px;
   }
 
 h1 {
@@ -21,7 +24,8 @@ h1 {
     font-weight: 300;
     line-height: 32px;
     letter-spacing: 0em;
-    text-align: center;    
+    text-align: center;   
+    text-shadow: var(--glowText); 
 }
 
 h2 {
@@ -31,9 +35,18 @@ h2 {
     line-height: 24px;
     letter-spacing: 0em;
     text-align: center;
-
+    text-shadow: var(--glowText); 
 }
 
+h4 {
+    font-family: Roboto Mono;
+    font-size: 11px;
+    font-weight: 700;
+    line-height: 15px;
+    letter-spacing: 0em;
+    text-align: center;
+    text-transform: uppercase;
+}
 
 body {
     background: var(--black);
@@ -59,4 +72,65 @@ body {
         line-height: 24px;
     }
 
+    body {
+        overflow: hidden;
+    }
+
   }
+  
+  /* Card Variables */
+  .card {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    box-sizing: border-box;
+    border: var(--border);
+    transition: 150ms ease-in-out;
+  }
+  
+
+  .card:hover {
+    box-sizing: border-box;
+    border: var(--borderWhite);
+    transition: 150ms ease-in-out;
+  }
+
+  .card:hover .card__img {
+    opacity: 1;
+    transition: 150ms ease-in-out;
+  }
+
+  .card__img {
+    width: 100%;
+    -webkit-filter: grayscale(100%); /* Safari 6.0 - 9.0 */
+    filter: grayscale(100%);
+    opacity: 0.5;
+    transition: 150ms ease-in-out;
+  }
+  .card__cell {
+    height: 32px;   
+    width: 100%; 
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-items: center;
+    align-content: center;
+    justify-content: center;
+  }
+
+  .card__cell--name {
+    text-align: center;
+    border-top: var(--border);
+    border-bottom: var(--border);
+  }
+
+  .card__cell--supply {
+    color: var(--red);
+    border-bottom: var(--border);
+  }
+
+  .card__cell--owned {
+    color: rgba(255, 255, 255, 0.5);
+    background-color: var(--borderGray)
+  }
+  

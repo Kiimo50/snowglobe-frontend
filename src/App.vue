@@ -7,6 +7,7 @@
     <main>
       <hero
         :isConnected="isConnected"
+        :claim="claim"
         @connect="connect"
         @disconnect="disconnect"
       />

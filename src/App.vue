@@ -5,9 +5,13 @@
       :walletAddress="walletAddress"
     />
     <main>
-        <hero />
-        <!-- <button v-if="!isConnected" @click="connect">Connect Wallet</button>
-        <claim v-if="isConnected" :claim="claim" @claim="initClaim" /> -->
+      <hero
+        :isConnected="isConnected"
+        @connect="connect"
+        @disconnect="disconnect"
+      />
+      <!-- <button v-if="!isConnected" @click="connect">Connect Wallet</button>
+      <claim v-if="isConnected" :claim="claim" @claim="initClaim" /> -->
 
       <wallet
         :balances="balances"
@@ -137,8 +141,11 @@ export default {
         }, // required
       });
 
+      console.log("web3Modal not undefined: ", typeof web3Modal !== 'undefined');
+      console.log("web3Modal.cashedProvider: ", web3Modal.cachedProvider);
       if (typeof web3Modal !== 'undefined' && web3Modal.cachedProvider)
         this.connect();
+
     } catch (err) {
       console.log(err);
     }

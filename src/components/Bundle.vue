@@ -9,18 +9,19 @@
         <img
           :src="`/assets/images/${token.tokenId}.jpg`"
           width="150"
-          :class="{ 'grayscale': !validateBundle(token.tokenId) }"
+          :class="{ 'grayscale': !validateBundleRequirements(token.tokens) && tokenOwned(token.tokenId) === 0 }"
           class="card__img"
         />
         <div class="card__cell card__cell--name">
           <h3>{{ token.name }}</h3>
           <!-- <p>This bundle requires tokens {{ token.tokens }}.</p> -->
-          <!-- <button v-if="validateBundle(token.tokens)" @click="bundleNow(token)">
+          <!-- <button v-if="validateBundleRequirements(token.tokens)" @click="bundleNow(token)">
             Bundle
           </button> -->
         </div>
         <div class="card__cell card__cell--owned">
-          <h4>Ineligible</h4>
+          <h4 v-if="validateBundleRequirements(token.tokens)">Eligible</h4>
+          <h4 v-else>Ineligible</h4>
         </div>
       </div>
     </div>
@@ -125,10 +126,16 @@ export default {
   },
 
   methods: {
-    validateBundle(requirements) {
+    tokenOwned(tokenId) {
+      return this.balances[tokenId];
+    },
+    validateBundleRequirements(requirements) {
+      //console.log("validating bundle ", requirements);
       for (let i in requirements) {
+        //if (this.balances[requirements[i]] === 0) console.log("false");
         if (this.balances[requirements[i]] === 0) return false;
       }
+      //console.log("true");
       return true;
     },
     bundleNow(token) {

@@ -23,8 +23,8 @@
           <h4 v-else>∞</h4>
         </div>
         <div class="card__cell card__cell--owned">
-          <h4 v-if="(tokenOwned(token.tokenId) > 0)">{{ tokenOwned(token.tokenId) }} COLLECTED</h4>
-          <h4 v-else>NOT IN WALLET</h4>
+          <h4 v-if="(tokenOwned(token.tokenId) > 0)">{{ tokenOwned(token.tokenId) }} collected</h4>
+          <h4 v-else>Not in wallet</h4>
         </div>
       </figure>
     </div>

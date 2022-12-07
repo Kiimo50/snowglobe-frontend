@@ -18,6 +18,8 @@
         :balances="balances"
         :isConnected="isConnected"
         :claim="claim"
+        :selectedCards="selectedCards"
+        @selectCard="selectCard"
       />
 
       <bundle
@@ -109,6 +111,7 @@ export default {
       walletAddress: null,
       balances: [],
       tokensOwned: [],
+      selectedCards: [2, 3, 4],
       meta: Meta,
       claim: {
         isAvailable: false,
@@ -181,6 +184,13 @@ export default {
         Signer = null;
       } catch (err) {
         console.log(err);
+      }
+    },
+    async selectCard(tokenId) {
+      if (this.selectedCards.includes(tokenId)) {
+        this.selectedCards = this.selectedCards.filter((id) => id !== tokenId);
+      } else {
+        this.selectedCards.push(tokenId);
       }
     },
     async fetchAccount() {

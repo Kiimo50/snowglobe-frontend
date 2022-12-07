@@ -6,7 +6,7 @@
       <h2 class="txt__subhead">
         Exclusive collectibles for Curio Card holders
       </h2>
-      <button class="button__single button__white" @click="connect">
+      <button class="button__single button__white" @click="connectCallback">
         Connect Wallet
       </button>
       <button class="button__single button__black" href="Buy on OpenSea">
@@ -60,7 +60,7 @@
         </figure>
       </div>
 
-      <button class="button__white button__single" @click="claim">
+      <button class="button__white button__single" @click="claimCallback">
         Claim Selection
       </button>
       <button class="button__single button__black" href="Buy on OpenSea">
@@ -73,7 +73,7 @@
       <div class="button__double--wrapper">
         <button
           class="button__white button__double button__double--left"
-          @click="bundle"
+          @click="bundleCallback"
         >
           Bundle</button
         ><button
@@ -97,7 +97,7 @@
       </button>
     </div>
 
-    <!-- <button @click="disconnect">Disconnect</button> -->
+    <!-- <button @click="disconnectCallback">Disconnect</button> -->
 
     <!-- Scroll Down arrow -->
     <svg
@@ -335,16 +335,16 @@ export default {
     getToken(tokenId) {
       return this.meta.find((token) => token.tokenId === tokenId);
     },
-    connect() {
+    connectCallback() {
       this.$emit("connect");
     },
-    disconnect() {
+    disconnectCallback() {
       this.$emit("disconnect");
     },
-    claim() {
+    claimCallback() {
       console.log("todo");
     },
-    bundle() {
+    bundleCallback() {
       console.log("todo");
     },
   },

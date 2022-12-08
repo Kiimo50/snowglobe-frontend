@@ -7,7 +7,7 @@
         :balances="balances"
         :claim="claim"
         :selectedTokenId="selectedTokenId"
-        :allowBundle="(selectedBundle && validateBundleRequirements(meta[selectedBundle].tokens))"
+        :allowBundle="(selectedBundle && validateBundleRequirements(meta.find(m => m.tokenId === selectedBundle).tokens))"
         :allowUnbundle="(selectedBundle && balances[selectedBundle] > 0)"
         @connect="connect"
         @disconnect="disconnect"
@@ -33,47 +33,39 @@
       />
     </main>
 
-    <div class="modal" v-if="transaction.processing">
-      <div class="backdrop"></div>
-      <div class="modalContainer">
-        <div>
-          <div>
-            <p>Processing...</p>
-          </div>
-        </div>
-      </div>
-    </div>
+    <aside class="modal" v-if="transaction.error.state">
+      <p>There was an error.</p>
+      <p style="word-break: break-all">{{ transaction.error.message }}</p>
+      <button class="resetTransaction" @click="resetTransaction">Close</button>
+    </aside>
 
-    <div class="modal" v-if="transaction.error.state">
-      <div class="backdrop"></div>
-      <div class="modalContainer">
-        <div>
-          <div>
-            <p>There was an error.</p>
-            <pre>{{ transaction.error.message }} </pre>
-            <button class="cancel" @click="resetTransaction">Close</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <aside class="modal" v-else-if="transaction.processing">
+      <h1>Processing transaction...</h1>
+      <img src="/assets/hourglass.gif" alt="loading" />
+    </aside>
 
-    <div class="modal" v-if="modal">
-      <div class="backdrop"></div>
-      <div class="modalContainer">
-        <div>
-          <div>
-            <p>
-              You are about to bundle tokens {{ tokensToBundleDisplay }} into a
-              new token #{{ this.bundle.tokenId }}. Do you wish to continue?
-            </p>
-            <div>
-              <button @click="cancel" class="cancel">Cancel</button>
-              <button @click="confirm">Confirm</button>
-            </div>
-          </div>
-        </div>
+    <aside class="modal" v-else-if="showBundleModal">
+      <p>
+        You are about to bundle tokens <strong>{{ meta.find(m => m.tokenId === selectedBundle).tokens.join(", ") }}</strong> into the  
+        <strong>{{ meta.find(m => m.tokenId === selectedBundle).name }}</strong> bundle. Do you wish to continue?
+      </p>
+      <div>
+        <button @click="cancel" class="cancel">Cancel</button>
+        <button @click="confirmBundle">Confirm</button>
       </div>
-    </div>
+    </aside>
+
+    <aside class="modal" v-else-if="showUnbundleModal">
+      <p>
+        You are about to unbundle token <strong>{{ selectedBundle }}</strong> into the  
+        <strong>{{ meta.find(m => m.tokenId === selectedBundle).tokens.join(", ") }}</strong> tokens. Do you wish to continue?
+      </p>
+      <div>
+        <button @click="cancel" class="cancel">Cancel</button>
+        <button @click="confirmUnbundle">Confirm</button>
+      </div>
+    </aside>
+
   </div>
 </template>
 
@@ -128,7 +120,8 @@ export default {
 
   data() {
     return {
-      modal: false,
+      showBundleModal: false,
+      showUnbundleModal: false,
       isConnected: false,
       walletAddress: null,
       balances: [],
@@ -338,7 +331,10 @@ export default {
         }).catch((err) => console.error(err));
       }
     },
-    async initBundle() {
+    initBundle() {
+      this.showBundleModal = true;
+    },
+    async confirmBundle() {
       const bundle = this.meta.find(
         (token) => token.tokenId === this.selectedBundle
       );
@@ -348,6 +344,7 @@ export default {
         this.transaction.processing = true;
         let tx;
         try {
+          this.showBundleModal = false;
           tx = await CURIO.bundle(bundle.tokens);
         } catch (err) {
           tx = err;
@@ -360,12 +357,16 @@ export default {
       }
     },
     async initUnbundle() {
+      this.showUnbundleModal = true;
+    },
+    async confirmUnbundle() {
       console.log("unbundle: ", this.selectedBundle)
       if (this.isConnected) {
         this.resetTransaction();
         this.transaction.processing = true;
         let tx;
         try {
+          this.showUnbundleModal = false;
           tx = await CURIO.unbundle(this.selectedBundle);
         } catch (err) {
           tx = err;
@@ -390,6 +391,12 @@ export default {
           message: "",
         },
       };
+    },
+    cancel() {
+      this.resetSelection();
+      this.resetTransaction();
+      this.showBundleModal = false;
+      this.showUnbundleModal = false;
     },
     async processingTransaction(tx, cb) {
       if (typeof tx.wait === "function") {

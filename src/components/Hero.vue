@@ -83,7 +83,7 @@
     </div>
 
     <div class="button__wrapper" v-else-if="hasAnyTokens">
-      <h2 class="txt__subhead">Blah blah blah bundle now</h2>
+      <h2 class="txt__subhead">{{ bundleMessage }}</h2>
       <div class="button__double--wrapper">
         <button
           class="button__double button__double--left"
@@ -347,6 +347,10 @@ export default {
       type: Number,
       default: null,
     },
+    selectedBundle: {
+      type: Number,
+      default: null,
+    }
   },
   data() {
     return {
@@ -354,6 +358,33 @@ export default {
     };
   },
   computed: {
+    bundleMessage() {
+      if (this.selectedBundle) {
+        const bundle = this.meta.find(
+          (bundle) => bundle.id === this.selectedBundle
+        );
+
+        if (this.selectedBundle === 32) {
+          return `The Cryptograffiti bundle requires a Raccoon, plus snowglobes 11, 12 and 13.`;
+        } else if (this.selectedBundle === 33) {
+          return `The Cryptopop bundle requires a Raccoon, plus snowglobes 17, 18, 19, and 17b.`;
+        } else if (this.selectedBundle === 34) {
+          return `The Daniel bundle requires a Raccoon, plus snowglobes 24, 25 and 26.`;
+        } else if (this.selectedBundle === 35) {
+          return `The Full Set bundle requires a Raccoon, plus each snowglobe from 1-30.`;
+        } else if (this.selectedBundle === 36) {
+          return `The Maximus bundle requires a Raccoon, plus snowglobes 27, 28 and 29.`;
+        } else if (this.selectedBundle === 37) {
+          return `The Phneep bundle requires a Raccoon, plus snowglobes 14, 15 and 16.`;
+        } else if (this.selectedBundle === 38) {
+          return `The Robek bundle requires a Racoon, plus snowgloves 21, 22 and 23.`;
+        } else if (this.selectedBundle === 39) {
+          return `The Story unbundle requires a Raccoon, plus each of the first 10 snowglobes.`;
+        }
+      }
+
+      return "Select a bundle!";
+    },
     selectedToken: {
       get() {
         return this.meta.find(

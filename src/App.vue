@@ -7,6 +7,7 @@
         :balances="balances"
         :claim="claim"
         :selectedTokenId="selectedTokenId"
+        :selectedBundle="selectedBundle"
         :allowBundle="(selectedBundle && validateBundleRequirements(meta.find(m => m.tokenId === selectedBundle).tokens))"
         :allowUnbundle="(selectedBundle && balances[selectedBundle] > 0)"
         @connect="connect"

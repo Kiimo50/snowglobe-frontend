@@ -79,12 +79,16 @@ body {
   
   /* Card Variables */
   .card {
+    position: relative;
     display: flex;
     flex-direction: column;
     align-items: center;
     box-sizing: border-box;
     border: var(--border);
     transition: 150ms ease-in-out;
+    background-color: var(--borderGray);
+    cursor: -webkit-pointer;
+    cursor: pointer;
   }
   
 
@@ -132,6 +136,7 @@ body {
     border-top: var(--border);
     border-bottom: var(--border);
     background: var(--black);
+    color: var(--white);
   }
 
   .card__cell--supply {
@@ -142,11 +147,32 @@ body {
 
   .card__cell--owned {
     color: rgba(255, 255, 255, 0.5);
-    background-color: var(--borderGray)
   }
   
 
 .selected {
   background: var(--blueLight);
-  color: var(--white);
+  color: var(--black);
+  border: 1px solid var(--blueLight);
+}
+
+.card__zoom {
+  position: absolute;
+  top: 0;
+  right: 0;
+  background-color: var(--black);
+  height: 32px;
+  width: 32px;
+  z-index: 5;
+  display: none;
+  cursor: -webkit-zoom-in;
+  cursor: zoom-in;
+}
+
+.card:hover .card__zoom {
+  display: flex;
+  align-items: center;
+  justify-items: center;
+  align-content: center;
+  justify-content: center;
 }

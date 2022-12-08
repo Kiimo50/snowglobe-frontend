@@ -12,21 +12,24 @@
         @connect="connect"
         @disconnect="disconnect"
         @claim="initClaim"
+        @bundle="initBundle"
       />
-      <!-- <button v-if="!isConnected" @click="connect">Connect Wallet</button>
-      <claim v-if="isConnected" :claim="claim" @claim="initClaim" /> -->
 
       <wallet
-        :balances="balances"
         :isConnected="isConnected"
+        :balances="balances"
         :claim="claim"
         :selectedCards="selectedCards"
         @selectCard="selectSingleCard"
       />
 
       <bundle
+        :isConnected="isConnected"
         :balances="balances"
+        :claim="claim"
+        :selectedCards="selectedCards"
         @confirm="initBundle"
+        @selectCard="selectSingleCard"
       />
       
     </main>
@@ -275,7 +278,7 @@ export default {
         }, []);
       }
     },
-    async initClaim(data) {
+    async initClaim() {
       const tokenId = this.totalSpecialsAvailable > 0 ? this.selectedTokenId : 0;
 
       if (this.isConnected) {
@@ -327,6 +330,7 @@ export default {
       }
     },
     resetTransaction() {
+      // reset transaction
       this.transaction = {
         processing: false,
         success: false,
@@ -335,6 +339,8 @@ export default {
           message: '',
         },
       };
+      // then clear selected cards
+      this.selectedCards = [];
     },
     async processingTransaction(tx, cb) {
       if (typeof tx.wait === 'function') {

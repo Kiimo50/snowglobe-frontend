@@ -17,18 +17,18 @@
     <div class="button__wrapper" v-else-if="claim.isAvailable">
       <h2 class="txt__subhead">You are eligible to claim:</h2>
       <div class="claim__wrapper">
-        <figure class="card snowglobeToken">
+        <figure class="card snowglobeToken selected">
           <img :src="`/assets/images/1.jpg`" width="150" class="card__img" />
           <p class="card__cell card__cell--name">Raccoon</p>
           <div class="card__cell card__cell--supply">
             <h4>UNLIMITED</h4>
           </div>
           <div class="card__cell card__cell--owned">
-            <h4>Selected</h4>
+            <h4 class="selected">Selected</h4>
           </div>
         </figure>
 
-        <figure class="card snowglobeToken" v-if="this.selectedToken != null">
+        <figure class="card snowglobeToken selected" v-if="this.selectedToken != null">
           <img
             :src="`/assets/images/${this.selectedToken.tokenId}.jpg`"
             width="150"
@@ -44,11 +44,11 @@
             </h4>
           </div>
           <div class="card__cell card__cell--owned">
-            <h4>Selected</h4>
+            <h4 class="selected">Selected</h4>
           </div>
         </figure>
 
-        <figure class="card snowglobeToken" v-else>
+        <figure class="card snowglobeToken card__empty" v-else>
           <p class="card__img">PICK <br />ANOTHER <br />SNOWGLOBE</p>
           <p class="card__cell card__cell--name"></p>
           <div class="card__cell card__cell--supply">
@@ -256,6 +256,11 @@ button:hover {
   animation: hideshow 1s ease infinite;
 }
 
+.card__empty {
+  border: var(--borderWhite);
+  box-shadow: var(--glowButton);
+}
+
 @keyframes hideshow {
   0% {
     opacity: 1;
@@ -328,6 +333,8 @@ export default {
     },
     hasAnyTokens() {
       // return true if any of the balances are greater than 0
+      console.log("hasAnyTokens")
+      console.log(this.balances.some((balance) => balance > 0))
       return this.balances.some((balance) => balance > 0);
     },
     totalSupply() {
@@ -348,7 +355,7 @@ export default {
       this.$emit("claim");
     },
     bundleCallback() {
-      console.log("todo");
+      this.$emit("bundle");
     },
   },
 };

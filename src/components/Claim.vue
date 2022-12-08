@@ -1,3 +1,4 @@
+<!-- TODO delete this file -->
 <template>
   <section id="claim" v-if="hasClaim && claim.isAvailable">
     <h2>Claim</h2>

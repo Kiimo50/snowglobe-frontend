@@ -8,6 +8,7 @@
       <hero
         :isConnected="isConnected"
         :claim="claim"
+        :selectedTokenId="selectedCards.length === 1 ? selectedCards[0] : null"
         @connect="connect"
         @disconnect="disconnect"
       />
@@ -19,7 +20,7 @@
         :isConnected="isConnected"
         :claim="claim"
         :selectedCards="selectedCards"
-        @selectCard="selectCard"
+        @selectCard="selectSingleCard"
       />
 
       <bundle
@@ -111,7 +112,7 @@ export default {
       walletAddress: null,
       balances: [],
       tokensOwned: [],
-      selectedCards: [2, 3, 4],
+      selectedCards: [],
       meta: Meta,
       claim: {
         isAvailable: false,
@@ -186,11 +187,11 @@ export default {
         console.log(err);
       }
     },
-    async selectCard(tokenId) {
+    async selectSingleCard(tokenId) {
       if (this.selectedCards.includes(tokenId)) {
         this.selectedCards = this.selectedCards.filter((id) => id !== tokenId);
       } else {
-        this.selectedCards.push(tokenId);
+        this.selectedCards = [tokenId];
       }
     },
     async fetchAccount() {

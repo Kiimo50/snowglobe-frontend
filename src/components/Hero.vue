@@ -14,7 +14,7 @@
       </button>
     </div>
 
-    <div class="button__wrapper" v-else-if="!notYetClaimed">
+    <div class="button__wrapper" v-else-if="claim.isAvailable">
       <h2 class="txt__subhead">You are eligible to claim:</h2>
       <div class="claim__wrapper">
         <figure class="card snowglobeToken">
@@ -305,11 +305,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    selectedTokenId: {
+      type: Number,
+      default: null,
+    },
   },
   data() {
     return {
-      meta: Meta,
-      selectedTokenId: null,
+      meta: Meta
     };
   },
   computed: {

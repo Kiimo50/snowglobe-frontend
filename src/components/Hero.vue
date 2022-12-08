@@ -71,17 +71,21 @@
       </button>
     </div>
 
-    <div class="button__wrapper" v-else-if="hasAnyToken">
+    <div class="button__wrapper" v-else-if="hasAnyTokens">
       <h2 class="txt__subhead">Blah blah blah bundle now</h2>
       <div class="button__double--wrapper">
         <button
-          class="button__white button__double button__double--left"
+          class="button__double button__double--left"
+          :disabled="!allowBundle"
+          :class="{ 'button__disabled': !allowBundle, 'button__white': allowBundle}"
           @click="bundleCallback"
         >
           Bundle</button
         ><button
-          class="button__disabled button__double button__double--right"
-          @click="unbundle"
+          class="button__double button__double--right"
+          :disabled="!allowUnbundle"
+          :class="{ 'button__disabled': !allowUnbundle, 'button__white': allowUnbundle}"
+          @click="unbundleCallback"
         >
           Unbundle
         </button>
@@ -294,6 +298,14 @@ const Meta = require("../data/meta.json");
 export default {
   name: "Hero",
   props: {
+    allowBundle: {
+      type: Boolean,
+      default: false,
+    },
+    allowUnbundle: {
+      type: Boolean,
+      default: false,
+    },
     balances: {
       type: Array,
       default: () => [],
@@ -336,9 +348,7 @@ export default {
     },
     hasAnyTokens() {
       // return true if any of the balances are greater than 0
-      console.log("hasAnyTokens");
-      console.log(this.balances.some((balance) => balance > 0));
-      return this.balances.some((balance) => balance > 0);
+      return this.balances.some(balance => balance > 0);
     },
     totalSupply() {
       return this.meta.slice(0, 32).map((token) => token.totalSupply);
@@ -359,6 +369,9 @@ export default {
     },
     bundleCallback() {
       this.$emit("bundle");
+    },
+    unbundleCallback() {
+      this.$emit("unbundle");
     },
   },
 };

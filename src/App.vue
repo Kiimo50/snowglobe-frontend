@@ -1,18 +1,19 @@
 <template>
   <div class="container mx-auto">
-    <status
-      :isConnected="isConnected"
-      :walletAddress="walletAddress"
-    />
+    <status :isConnected="isConnected" :walletAddress="walletAddress" />
     <main>
       <hero
         :isConnected="isConnected"
+        :balances="balances"
         :claim="claim"
         :selectedTokenId="selectedTokenId"
+        :allowBundle="(selectedBundle && validateBundleRequirements(meta[selectedBundle].tokens))"
+        :allowUnbundle="(selectedBundle && balances[selectedBundle] > 0)"
         @connect="connect"
         @disconnect="disconnect"
         @claim="initClaim"
         @bundle="initBundle"
+        @unbundle="initUnbundle"
       />
 
       <wallet
@@ -28,10 +29,8 @@
         :balances="balances"
         :claim="claim"
         :selectedBundle="selectedBundle"
-        @confirm="initBundle"
         @selectBundle="selectBundle"
       />
-      
     </main>
 
     <div class="modal" v-if="transaction.processing">
@@ -57,61 +56,79 @@
         </div>
       </div>
     </div>
+
+    <div class="modal" v-if="modal">
+      <div class="backdrop"></div>
+      <div class="modalContainer">
+        <div>
+          <div>
+            <p>
+              You are about to bundle tokens {{ tokensToBundleDisplay }} into a
+              new token #{{ this.bundle.tokenId }}. Do you wish to continue?
+            </p>
+            <div>
+              <button @click="cancel" class="cancel">Cancel</button>
+              <button @click="confirm">Confirm</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
   </div>
 </template>
 
 <style>
-  main
-  {
-    display: grid;
-  }
+main {
+  display: grid;
+}
 
-  @media only screen and (min-width: 768px) {
-    main{
-      grid-template-columns: 1fr 1fr 1fr;
-    }
+@media only screen and (min-width: 768px) {
+  main {
+    grid-template-columns: 1fr 1fr 1fr;
   }
+}
 </style>
 
 <script>
-const ethers = require('ethers');
-const WalletConnectProvider = require('./lib/walletconnect.bundle').default;
-const Web3Modal = require('web3modal').default;
+const ethers = require("ethers");
+const WalletConnectProvider = require("./lib/walletconnect.bundle").default;
+const Web3Modal = require("web3modal").default;
 
-const Claims = require('./data/claims.json');
-const Meta = require('./data/meta.json');
+const Claims = require("./data/claims.json");
+const Meta = require("./data/meta.json");
 
 let CURIO_ADDR = env.CURIO_ADDR;
 const CurioABI = [
-  'function totalTokenTypes () public view returns (uint256)',
-  'function balanceOfBatch (address[],uint256[]) external view returns (uint256[])',
-  'function uri (uint256) public view returns (string)',
-  'function safeTransferFrom (address,address,uint256) public',
-  'function isStillAvailable (uint256) public view returns (bool)',
-  'function getClaimableSupplies () public view returns (uint8[32])',
-  'function claim (uint256,uint16,bytes) public',
-  'function bundle (uint256[]) public',
-  'function unbundle (uint256) public',
+  "function totalTokenTypes () public view returns (uint256)",
+  "function balanceOfBatch (address[],uint256[]) external view returns (uint256[])",
+  "function uri (uint256) public view returns (string)",
+  "function safeTransferFrom (address,address,uint256) public",
+  "function isStillAvailable (uint256) public view returns (bool)",
+  "function getClaimableSupplies () public view returns (uint8[32])",
+  "function claim (uint256,uint16,bytes) public",
+  "function bundle (uint256[]) public",
+  "function unbundle (uint256) public",
 ];
 let web3Modal, Provider, Signer, CURIO;
 
-import ClaimComponent from './components/Claim.vue';
-import WalletComponent from './components/Wallet.vue';
-import BundleComponent from './components/Bundle.vue';
-import StatusBarComponent from './components/StatusBar.vue';
-import HeroComponent from './components/Hero.vue';
+import ClaimComponent from "./components/Claim.vue";
+import WalletComponent from "./components/Wallet.vue";
+import BundleComponent from "./components/Bundle.vue";
+import StatusBarComponent from "./components/StatusBar.vue";
+import HeroComponent from "./components/Hero.vue";
 
 export default {
   components: {
-    'claim': ClaimComponent,
-    'wallet': WalletComponent,
-    'bundle': BundleComponent,
-    'status': StatusBarComponent,
-    'hero': HeroComponent
+    claim: ClaimComponent,
+    wallet: WalletComponent,
+    bundle: BundleComponent,
+    status: StatusBarComponent,
+    hero: HeroComponent,
   },
 
   data() {
     return {
+      modal: false,
       isConnected: false,
       walletAddress: null,
       balances: [],
@@ -130,7 +147,7 @@ export default {
         success: false,
         error: {
           state: false,
-          message: '',
+          message: "",
         },
       },
     };
@@ -146,12 +163,11 @@ export default {
     specialTokens() {
       return this.meta.filter(
         (token) =>
-          typeof this.claim.specials[token.tokenId] !== 'undefined' &&
+          typeof this.claim.specials[token.tokenId] !== "undefined" &&
           this.claim.specials[token.tokenId] > 0
       );
     },
     selectedTokenId() {
-      console.log("selectedCards: ", this.selectedCards)
       return this.selectedCards.length === 1 ? this.selectedCards[0] : null;
     },
   },
@@ -159,7 +175,7 @@ export default {
   created() {
     try {
       web3Modal = new Web3Modal({
-        network: 'mainnet', // optional
+        network: "mainnet", // optional
         cacheProvider: true, // optional
         providerOptions: {
           walletconnect: {
@@ -171,11 +187,13 @@ export default {
         }, // required
       });
 
-      console.log("web3Modal not undefined: ", typeof web3Modal !== 'undefined');
+      console.log(
+        "web3Modal not undefined: ",
+        typeof web3Modal !== "undefined"
+      );
       console.log("web3Modal.cashedProvider: ", web3Modal.cachedProvider);
-      if (typeof web3Modal !== 'undefined' && web3Modal.cachedProvider)
+      if (typeof web3Modal !== "undefined" && web3Modal.cachedProvider)
         this.connect();
-
     } catch (err) {
       console.log(err);
     }
@@ -188,7 +206,7 @@ export default {
 
         Provider = new ethers.providers.Web3Provider(instance);
 
-        Provider.provider.on('accountsChanged', (accounts) =>
+        Provider.provider.on("accountsChanged", (accounts) =>
           this.fetchAccount()
         );
         this.fetchAccount();
@@ -198,7 +216,7 @@ export default {
     },
     async disconnect() {
       try {
-        if (Provider !== null && typeof Provider.close === 'function') {
+        if (Provider !== null && typeof Provider.close === "function") {
           await Provider.close();
         }
 
@@ -236,9 +254,9 @@ export default {
     async fetchAccount() {
       let accounts;
       try {
-        accounts = await Provider.send('eth_requestAccounts', []);
+        accounts = await Provider.send("eth_requestAccounts", []);
       } catch (e) {
-        console.log('Failed to Get Address');
+        console.log("Failed to Get Address");
 
         this.isConnected = false;
         this.walletAddress = null;
@@ -256,7 +274,7 @@ export default {
       }
     },
     async getClaimData() {
-      if (typeof Claims[this.walletAddress] !== 'undefined') {
+      if (typeof Claims[this.walletAddress] !== "undefined") {
         this.claim = {
           isAvailable: await CURIO.isStillAvailable(
             Claims[this.walletAddress].nonce
@@ -295,14 +313,20 @@ export default {
       }
     },
     async initClaim() {
-      const tokenId = this.totalSpecialsAvailable > 0 ? this.selectedTokenId : 0;
+      const tokenId =
+        this.totalSpecialsAvailable > 0 ? this.selectedTokenId : 0;
 
       if (this.isConnected) {
         this.resetTransaction();
         this.transaction.processing = true;
         let tx;
         try {
-          console.log("claiming: ", tokenId, this.claim.nonce, this.claim.message)
+          console.log(
+            "claiming: ",
+            tokenId,
+            this.claim.nonce,
+            this.claim.message
+          );
           tx = await CURIO.claim(tokenId, this.claim.nonce, this.claim.message);
         } catch (err) {
           tx = err;
@@ -310,10 +334,15 @@ export default {
         this.processingTransaction(tx, (receipt) => {
           this.getClaimData();
           this.getTokensOwned();
+          this.resetSelection();
         }).catch((err) => console.error(err));
       }
     },
-    async initBundle(bundle) {
+    async initBundle() {
+      const bundle = this.meta.find(
+        (token) => token.tokenId === this.selectedBundle
+      );
+
       if (this.isConnected) {
         this.resetTransaction();
         this.transaction.processing = true;
@@ -326,53 +355,57 @@ export default {
         this.processingTransaction(tx, (receipt) => {
           this.getClaimData();
           this.getTokensOwned();
-        }).catch((err) => {});
+          this.resetSelection();
+        }).catch((err) => console.error(err));
       }
     },
-    async initUnbundle(tokenId) {
+    async initUnbundle() {
+      console.log("unbundle: ", this.selectedBundle)
       if (this.isConnected) {
         this.resetTransaction();
         this.transaction.processing = true;
         let tx;
         try {
-          tx = await CURIO.unbundle(tokenId);
+          tx = await CURIO.unbundle(this.selectedBundle);
         } catch (err) {
           tx = err;
         }
         this.processingTransaction(tx, (receipt) => {
           this.getClaimData();
           this.getTokensOwned();
-        }).catch((err) => {});
+          this.resetSelection();
+        }).catch((err) => console.error(err));
       }
     },
+    resetSelection() {
+      this.selectedCards = [];
+      this.selectedBundle = null;
+    },
     resetTransaction() {
-      // reset transaction
       this.transaction = {
         processing: false,
         success: false,
         error: {
           state: false,
-          message: '',
+          message: "",
         },
       };
-      // then clear selected cards
-      this.selectedCards = [];
     },
     async processingTransaction(tx, cb) {
-      if (typeof tx.wait === 'function') {
+      if (typeof tx.wait === "function") {
         const receipt = await tx.wait();
         this.transaction.success = true;
-        if (typeof cb === 'function') cb(receipt);
+        if (typeof cb === "function") cb(receipt);
       } else {
-        let err = typeof tx.error !== 'undefined' ? tx.error : tx;
+        let err = typeof tx.error !== "undefined" ? tx.error : tx;
 
         if (
-          typeof err.data !== 'undefined' &&
-          typeof err.data.message !== 'undefined'
+          typeof err.data !== "undefined" &&
+          typeof err.data.message !== "undefined"
         )
           this.transaction.error.message = err.data.message.replace(
-            'Error: VM Exception while processing transaction: ',
-            ''
+            "Error: VM Exception while processing transaction: ",
+            ""
           );
         else this.transaction.error.message = err.message;
 
@@ -383,6 +416,12 @@ export default {
 
       if (this.transaction.error.state === true)
         throw new Error(this.transaction.error.message);
+    },
+    validateBundleRequirements(requirements) {
+      for (let i in requirements) {
+        if (this.balances[requirements[i]] === 0) return false;
+      }
+      return true;
     },
   },
 };

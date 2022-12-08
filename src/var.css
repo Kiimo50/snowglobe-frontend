@@ -1,9 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Roboto+Mono:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;1,100;1,200;1,300;1,400;1,500;1,600;1,700&display=swap');
 
-.selected {
-    border: 5px dotted red !important;
-}
-
 :root {
     /* colors */
     --black: #111111;
@@ -106,6 +102,12 @@ body {
   .card__img {
     width: 100%;
     transition: 150ms ease-in-out;
+    min-height: 130px;
+    display: flex; 
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
   }
 
   .grayscale {
@@ -129,10 +131,12 @@ body {
     text-align: center;
     border-top: var(--border);
     border-bottom: var(--border);
+    background: var(--black);
   }
 
   .card__cell--supply {
     color: var(--red);
+    background: var(--black);
     border-bottom: var(--border);
   }
 
@@ -141,3 +145,8 @@ body {
     background-color: var(--borderGray)
   }
   
+
+.selected {
+  background: var(--blueLight);
+  color: var(--white);
+}

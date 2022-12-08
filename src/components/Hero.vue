@@ -345,7 +345,7 @@ export default {
       this.$emit("disconnect");
     },
     claimCallback() {
-      console.log("todo");
+      this.$emit("claim");
     },
     bundleCallback() {
       console.log("todo");

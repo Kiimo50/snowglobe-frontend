@@ -8,9 +8,10 @@
       <hero
         :isConnected="isConnected"
         :claim="claim"
-        :selectedTokenId="selectedCards.length === 1 ? selectedCards[0] : null"
+        :selectedTokenId="selectedTokenId"
         @connect="connect"
         @disconnect="disconnect"
+        @claim="initClaim"
       />
       <!-- <button v-if="!isConnected" @click="connect">Connect Wallet</button>
       <claim v-if="isConnected" :claim="claim" @claim="initClaim" /> -->
@@ -129,6 +130,25 @@ export default {
         },
       },
     };
+  },
+
+  computed: {
+    hasClaim() {
+      return this.claim.nonce !== null;
+    },
+    totalSpecialsAvailable() {
+      return this.claim.specials.reduce((sum, tokenId) => (sum += tokenId), 0);
+    },
+    specialTokens() {
+      return this.meta.filter(
+        (token) =>
+          typeof this.claim.specials[token.tokenId] !== 'undefined' &&
+          this.claim.specials[token.tokenId] > 0
+      );
+    },
+    selectedTokenId() {
+      return this.selectedCards.length === 1 ? this.selectedCards[0] : null;
+    },
   },
 
   created() {
@@ -256,19 +276,22 @@ export default {
       }
     },
     async initClaim(data) {
+      const tokenId = this.totalSpecialsAvailable > 0 ? this.selectedTokenId : 0;
+
       if (this.isConnected) {
         this.resetTransaction();
         this.transaction.processing = true;
         let tx;
         try {
-          tx = await CURIO.claim(data.tokenId, data.nonce, data.claim);
+          console.log("claiming: ", tokenId, this.claim.nonce, this.claim.message)
+          tx = await CURIO.claim(tokenId, this.claim.nonce, this.claim.message);
         } catch (err) {
           tx = err;
         }
         this.processingTransaction(tx, (receipt) => {
           this.getClaimData();
           this.getTokensOwned();
-        }).catch((err) => {});
+        }).catch((err) => console.error(err));
       }
     },
     async initBundle(bundle) {

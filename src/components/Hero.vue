@@ -30,7 +30,7 @@
 
         <figure
           class="card snowglobeToken selected"
-          v-if="this.selectedToken != null"
+          v-if="!this.fullyClaimed && this.selectedToken != null"
         >
           <img
             :src="`/assets/images/${this.selectedToken.tokenId}.jpg`"
@@ -51,7 +51,10 @@
           </div>
         </figure>
 
-        <figure class="card snowglobeToken card__empty" v-else>
+        <figure
+          class="card snowglobeToken card__empty"
+          v-else-if="!this.fullyClaimed"
+        >
           <p class="card__img">PICK <br />ANOTHER <br />SNOWGLOBE</p>
           <p class="card__cell card__cell--name"></p>
           <div class="card__cell card__cell--supply">
@@ -63,7 +66,15 @@
         </figure>
       </div>
 
-      <button class="button__white button__single" @click="claimCallback">
+      <button
+        class="button__single"
+        :disabled="!allowClaiming"
+        :class="{
+          button__disabled: !allowClaiming,
+          button__white: allowClaiming,
+        }"
+        @click="claimCallback"
+      >
         Claim Selection
       </button>
       <button class="button__single button__black" href="Buy on OpenSea">
@@ -77,14 +88,20 @@
         <button
           class="button__double button__double--left"
           :disabled="!allowBundle"
-          :class="{ 'button__disabled': !allowBundle, 'button__white': allowBundle}"
+          :class="{
+            button__disabled: !allowBundle,
+            button__white: allowBundle,
+          }"
           @click="bundleCallback"
         >
           Bundle</button
         ><button
           class="button__double button__double--right"
           :disabled="!allowUnbundle"
-          :class="{ 'button__disabled': !allowUnbundle, 'button__white': allowUnbundle}"
+          :class="{
+            button__disabled: !allowUnbundle,
+            button__white: allowUnbundle,
+          }"
           @click="unbundleCallback"
         >
           Unbundle
@@ -161,9 +178,10 @@
 <style scoped>
 .claim__wrapper {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   width: 280px;
   margin-bottom: 24px;
+  column-gap: 22px;
 }
 
 button {
@@ -348,10 +366,25 @@ export default {
     },
     hasAnyTokens() {
       // return true if any of the balances are greater than 0
-      return this.balances.some(balance => balance > 0);
+      return this.balances.some((balance) => balance > 0);
     },
     totalSupply() {
       return this.meta.slice(0, 32).map((token) => token.totalSupply);
+    },
+    fullyClaimed() {
+      return this.claim.specials.every((special) => special === 0);
+    },
+    allowClaiming() {
+      // if user has no claim, return false
+      if (!this.claim.isAvailable)
+        return false;
+
+      // if user has a claim but everything has been claimed, return true- they can get the Raccoon, at least
+      if (this.fullyClaimed)
+        return true;
+      
+      // if user has a claim and there are still cards available, return true if they've made a selection
+      return this.selectedToken != null;
     },
   },
   methods: {

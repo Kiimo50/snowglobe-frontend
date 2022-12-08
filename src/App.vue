@@ -57,8 +57,8 @@
 
     <aside class="modal" v-else-if="showUnbundleModal">
       <p>
-        You are about to unbundle token <strong>{{ selectedBundle }}</strong> into the  
-        <strong>{{ meta.find(m => m.tokenId === selectedBundle).tokens.join(", ") }}</strong> tokens. Do you wish to continue?
+        You are about to unbundle <strong>{{ meta.find(m => m.tokenId === selectedBundle).name }}</strong> into tokens 
+        <strong>{{ meta.find(m => m.tokenId === selectedBundle).tokens.join(", ") }}</strong>. Do you wish to continue?
       </p>
       <div>
         <button @click="cancel" class="cancel">Cancel</button>
@@ -103,7 +103,6 @@ const CurioABI = [
 ];
 let web3Modal, Provider, Signer, CURIO;
 
-import ClaimComponent from "./components/Claim.vue";
 import WalletComponent from "./components/Wallet.vue";
 import BundleComponent from "./components/Bundle.vue";
 import StatusBarComponent from "./components/StatusBar.vue";
@@ -111,7 +110,6 @@ import HeroComponent from "./components/Hero.vue";
 
 export default {
   components: {
-    claim: ClaimComponent,
     wallet: WalletComponent,
     bundle: BundleComponent,
     status: StatusBarComponent,
@@ -188,7 +186,7 @@ export default {
       if (typeof web3Modal !== "undefined" && web3Modal.cachedProvider)
         this.connect();
     } catch (err) {
-      console.log(err);
+      console.error(err);
     }
   },
 
@@ -199,12 +197,14 @@ export default {
 
         Provider = new ethers.providers.Web3Provider(instance);
 
-        Provider.provider.on("accountsChanged", (accounts) =>
-          this.fetchAccount()
-        );
+        Provider.provider.on("accountsChanged", (accounts) => {
+          this.fetchAccount();
+          this.selectedCards = [];
+          this.selectBundle = null;
+        });
         this.fetchAccount();
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     },
     async disconnect() {
@@ -220,7 +220,7 @@ export default {
         Provider = null;
         Signer = null;
       } catch (err) {
-        console.log(err);
+        console.error(err);
       }
     },
     async selectSingleCard(tokenId) {
@@ -249,7 +249,7 @@ export default {
       try {
         accounts = await Provider.send("eth_requestAccounts", []);
       } catch (e) {
-        console.log("Failed to Get Address");
+        console.error("Failed to Get Address", e);
 
         this.isConnected = false;
         this.walletAddress = null;
@@ -294,7 +294,6 @@ export default {
             Object.keys(Array(totalTokenTypes).fill(0)).map((i) => Number(i))
           )
         ).map((balance) => balance.toNumber());
-        console.log(balances);
 
         this.balances = balances;
         this.tokensOwned = balances.reduce((owned, balance, tokenId) => {
@@ -306,20 +305,14 @@ export default {
       }
     },
     async initClaim() {
-      const tokenId =
-        this.totalSpecialsAvailable > 0 ? this.selectedTokenId : 0;
+      const tokenId = this.totalSpecialsAvailable > 0 ? this.selectedTokenId : 0;
 
       if (this.isConnected) {
         this.resetTransaction();
         this.transaction.processing = true;
         let tx;
         try {
-          console.log(
-            "claiming: ",
-            tokenId,
-            this.claim.nonce,
-            this.claim.message
-          );
+          console.log(`claiming: ${tokenId}, ${this.claim.nonce}, ${this.claim.message}`);
           tx = await CURIO.claim(tokenId, this.claim.nonce, this.claim.message);
         } catch (err) {
           tx = err;
@@ -360,7 +353,6 @@ export default {
       this.showUnbundleModal = true;
     },
     async confirmUnbundle() {
-      console.log("unbundle: ", this.selectedBundle)
       if (this.isConnected) {
         this.resetTransaction();
         this.transaction.processing = true;

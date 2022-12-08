@@ -154,6 +154,13 @@ export default {
     },
     selectCard(tokenId) {
       if (this.isConnected && this.claim.isAvailable) {
+        if (tokenId === 0) {
+          return;
+        }
+        if (this.claim.specials[tokenId] === 0) {
+          return;
+        }
+
         this.$emit("selectCard", tokenId);
       }
     },

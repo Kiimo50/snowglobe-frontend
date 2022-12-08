@@ -27,9 +27,9 @@
         :isConnected="isConnected"
         :balances="balances"
         :claim="claim"
-        :selectedCards="selectedCards"
+        :selectedBundle="selectedBundle"
         @confirm="initBundle"
-        @selectCard="selectSingleCard"
+        @selectBundle="selectBundle"
       />
       
     </main>
@@ -117,6 +117,7 @@ export default {
       balances: [],
       tokensOwned: [],
       selectedCards: [],
+      selectedBundle: null,
       meta: Meta,
       claim: {
         isAvailable: false,
@@ -150,6 +151,7 @@ export default {
       );
     },
     selectedTokenId() {
+      console.log("selectedCards: ", this.selectedCards)
       return this.selectedCards.length === 1 ? this.selectedCards[0] : null;
     },
   },
@@ -216,6 +218,20 @@ export default {
       } else {
         this.selectedCards = [tokenId];
       }
+    },
+    async selectBundle(bundleTokenId) {
+      // if targeted bundle already selected, deselect it
+      if (this.selectedBundle === bundleTokenId) {
+        this.selectedCards = [];
+        this.selectedBundle = null;
+        return;
+      }
+      // else, select the bundle and its dependencies
+      this.selectedBundle = bundleTokenId;
+      this.selectedCards = this.meta
+        .filter((token) => token.tokenId === bundleTokenId)
+        .map((token) => token.tokens)
+        .flat();
     },
     async fetchAccount() {
       let accounts;

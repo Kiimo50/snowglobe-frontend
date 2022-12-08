@@ -28,7 +28,10 @@
           </div>
         </figure>
 
-        <figure class="card snowglobeToken selected" v-if="this.selectedToken != null">
+        <figure
+          class="card snowglobeToken selected"
+          v-if="this.selectedToken != null"
+        >
           <img
             :src="`/assets/images/${this.selectedToken.tokenId}.jpg`"
             width="150"
@@ -317,7 +320,7 @@ export default {
   },
   data() {
     return {
-      meta: Meta
+      meta: Meta,
     };
   },
   computed: {
@@ -333,8 +336,8 @@ export default {
     },
     hasAnyTokens() {
       // return true if any of the balances are greater than 0
-      console.log("hasAnyTokens")
-      console.log(this.balances.some((balance) => balance > 0))
+      console.log("hasAnyTokens");
+      console.log(this.balances.some((balance) => balance > 0));
       return this.balances.some((balance) => balance > 0);
     },
     totalSupply() {

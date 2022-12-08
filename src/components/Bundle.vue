@@ -5,8 +5,8 @@
         v-for="token in bundleTokens"
         :key="token.tokenId"
         class="card bundleToken"
-        :class="{ selected: selectedCards.includes(token.tokenId) }"
-        @click="selectCard(token.tokenId)"
+        :class="{ selected: selectedBundle === token.tokenId }"
+        @click="selectBundle(token.tokenId)"
       >
         <img
           :src="`/assets/images/${token.tokenId}.jpg`"
@@ -104,9 +104,9 @@ export default {
       type: Array,
       default: () => [],
     },
-    selectedCards: {
-      type: Array,
-      default: () => [],
+    selectedBundle: {
+      type: Number,
+      default: null,
     },
     claim: {
       type: Object,
@@ -173,9 +173,9 @@ export default {
       this.$emit('confirm', this.bundle);
       this.cancel();
     },
-    selectCard(tokenId) {
+    selectBundle(tokenId) {
       if (this.isConnected) {
-        this.$emit("selectCard", tokenId);
+        this.$emit("selectBundle", tokenId);
       }
     },
   },

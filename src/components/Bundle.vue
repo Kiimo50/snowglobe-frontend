@@ -59,7 +59,8 @@
             v-else-if="validateBundleRequirements(token.tokens)"
           >
             <div class="status__dot status__dot--active"></div>
-            <h4 class="text__blue">Eligible</h4>
+            <h4 class="text__blue" v-if="isConnected">Eligible</h4>
+            <h4 class="text__blue" v-else>{{ formatRequirementsString(token.tokenId) }}</h4>
           </div>
           <h4 v-else>Ineligible</h4>
         </div>
@@ -181,6 +182,25 @@ export default {
         if (this.balances[requirements[i]] === 0) return false;
       }
       return true;
+    },
+    formatRequirementsString(tokenId) {
+      if (tokenId === 32) {
+        return "11, 12, 13";
+      } else if (tokenId === 33) {
+        return "17, 18, 19, 17b";
+      } else if (tokenId === 34) {
+        return "24, 25, 26";
+      } else if (tokenId === 35) {
+        return "1-30";
+      } else if (tokenId === 36) {
+        return "27, 28, 29";
+      } else if (tokenId === 37) {
+        return "14, 15, 16";
+      } else if (tokenId === 38) {
+        return "21, 22, 23";
+      } else if (tokenId === 39) {
+        return "1-10";
+      }
     },
     selectBundle(tokenId) {
       if (this.isConnected) {

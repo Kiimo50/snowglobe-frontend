@@ -121,8 +121,6 @@
       </button>
     </div>
 
-    <!-- <button @click="disconnectCallback">Disconnect</button> -->
-
     <!-- Scroll Down arrow -->
     <svg
       class="icon__arrows"
@@ -328,9 +326,6 @@ export default {
     },
     connectCallback() {
       this.$emit("connect");
-    },
-    disconnectCallback() {
-      this.$emit("disconnect");
     },
     claimCallback() {
       this.$emit("claim");

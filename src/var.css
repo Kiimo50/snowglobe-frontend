@@ -292,6 +292,10 @@ button:hover {
   border: var(--border);
 }
 
+button:disabled {
+  cursor: not-allowed;
+}
+
 .button__white {
   background: var(--white);
   color: var(--black);

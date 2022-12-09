@@ -93,7 +93,6 @@
         </div>
       </figure>
     </div>
-    <!-- <div class="center bundle__status selected"><p>todo remove me</p></div> -->
   </section>
 </template>
 

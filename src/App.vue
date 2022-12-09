@@ -90,6 +90,11 @@ main {
     grid-template-columns: 1fr 1fr 1fr;
   }
 }
+
+model-viewer::part(default-progress-bar) {
+  border: 1px solid var(--white);
+  margin-top: 8px;
+}
 </style>
 
 <script>

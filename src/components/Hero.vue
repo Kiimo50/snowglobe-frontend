@@ -21,7 +21,7 @@
           <img :src="`/assets/images/0.jpg`" width="150" class="card__img" />
           <p class="card__cell card__cell--name">Raccoon</p>
           <div class="card__cell card__cell--supply">
-            <h4>UNLIMITED</h4>
+            <h4>{{ claim.remaining }} / 4980 left</h4>
           </div>
           <div class="card__cell card__cell--owned">
             <h4 class="selected">Selected</h4>
@@ -265,6 +265,7 @@ export default {
           nonce: null,
           message: null,
           specials: [],
+          remaining: 0,
         };
       },
     },

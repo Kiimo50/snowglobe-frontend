@@ -60,10 +60,13 @@
             {{ claim.specials[token.tokenId] }} /
             {{ totalSupply[token.tokenId] }} left
           </h4>
-          <h4 v-else>UNLIMITED</h4>
+          <h4 v-else>{{ claim.remaining }} / 4980 left</h4>
         </div>
         <div class="card__cell card__cell--supply" v-else>
-          <h4 v-if="totalSupply[token.tokenId] !== 0" style="text-transform: lowercase">
+          <h4
+            v-if="totalSupply[token.tokenId] !== 0"
+            style="text-transform: lowercase"
+          >
             {{ totalSupply[token.tokenId] }}x
           </h4>
           <h4 v-else>∞</h4>
@@ -185,6 +188,7 @@ export default {
           nonce: null,
           message: null,
           specials: [],
+          remaining: 0,
         };
       },
     },

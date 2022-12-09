@@ -157,6 +157,7 @@ const Meta = require("./data/meta.json");
 let CURIO_ADDR = env.CURIO_ADDR;
 const CurioABI = [
   "function totalTokenTypes () public view returns (uint256)",
+  "function availableClaims () public view returns (uint256)",
   "function balanceOfBatch (address[],uint256[]) external view returns (uint256[])",
   "function uri (uint256) public view returns (string)",
   "function safeTransferFrom (address,address,uint256) public",
@@ -335,23 +336,25 @@ export default {
       }
     },
     async getClaimData() {
+      let claim;
       if (typeof Claims[this.walletAddress] !== "undefined") {
-        this.claim = {
+        claim = {
           isAvailable: await CURIO.isStillAvailable(
             Claims[this.walletAddress].nonce
           ),
           nonce: Claims[this.walletAddress].nonce,
           message: Claims[this.walletAddress].claim,
-          specials: await CURIO.getClaimableSupplies(),
         };
       } else {
-        this.claim = {
+        claim = {
           isAvailable: false,
           nonce: null,
           message: null,
-          specials: [],
         };
       }
+      claim.specials = await CURIO.getClaimableSupplies();
+      claim.remaining = await CURIO.availableClaims();
+      this.claim = claim;
     },
     async getTokensOwned() {
       if (this.isConnected) {

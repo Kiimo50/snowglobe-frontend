@@ -22,6 +22,8 @@
         :balances="balances"
         :claim="claim"
         :selectedCards="selectedCards"
+        :selectedBundle="selectedBundle"
+        :selectedBundleRequirements="selectedBundle ? meta.find(m => m.tokenId === selectedBundle).tokens : []"
         @selectCard="selectSingleCard"
         @cardZoom="cardZoom"
       />
@@ -37,43 +39,41 @@
     </main>
 
     <aside class="modal" v-if="transaction.error.state">
-      <p>There was an error.</p>
+      <img class="icon__sad" src="/assets/sad-mac.png" alt="sad mac" />
+      <p><strong>There was an error.</strong></p>
       <p style="word-break: break-all">{{ transaction.error.message }}</p>
-      <button class="resetTransaction" @click="resetTransaction">Close</button>
+      <button class="top-space button__single button__black" @click="resetTransaction">Close</button>
     </aside>
-
     <aside class="modal" v-else-if="transaction.processing">
-      <h1>Processing transaction...</h1>
       <img src="/assets/hourglass.gif" alt="loading" />
+      <p>Processing transaction...</p>
     </aside>
-
     <aside class="modal" v-else-if="showBundleModal">
       <p>
         You are about to bundle tokens <strong>{{ meta.find(m => m.tokenId === selectedBundle).tokens.join(", ") }}</strong> into the  
         <strong>{{ meta.find(m => m.tokenId === selectedBundle).name }}</strong> bundle. Do you wish to continue?
       </p>
-      <div>
-        <button @click="cancel" class="cancel">Cancel</button>
-        <button @click="confirmBundle">Confirm</button>
+      <div class="button__row">
+        <button @click="cancel" class="cancel button__single button__black">Cancel</button>
+        <button @click="confirmBundle" class="button__single button__white">Confirm</button>
       </div>
     </aside>
-
     <aside class="modal" v-else-if="showUnbundleModal">
       <p>
         You are about to unbundle <strong>{{ meta.find(m => m.tokenId === selectedBundle).name }}</strong> into tokens 
         <strong>{{ meta.find(m => m.tokenId === selectedBundle).tokens.join(", ") }}</strong>. Do you wish to continue?
       </p>
-      <div>
-        <button @click="cancel" class="cancel">Cancel</button>
-        <button @click="confirmUnbundle">Confirm</button>
+      <div class="button__row">
+        <button @click="cancel" class="cancel button__single button__black">Cancel</button>
+        <button @click="confirmBundle" class="button__single button__white">Confirm</button>
       </div>
     </aside>
 
-    <div class="zoomModalBackground" v-if="zoomedCard" />
+    <div class="zoomModalBackground" v-if="zoomedCard"></div>
 
-    <aside class="zoomModal" v-if="zoomedCard">
-      <button class="button__single button__white" @click="cardZoom(null)">Close</button>
-      <p>Loading 3D model...</p>
+    <aside class="modal" v-if="zoomedCard">
+      <button class="close button__single button__white" @click="cardZoom(null)">Close</button>
+      <p class="loading-3d">Loading 3D model...</p>
       <model-viewer load="() => console.log('loaded')" id="model3d" :src="`/assets/3d/Curio_${zoomedCard}.glb`" camera-controls></model-viewer>
     </aside>
 

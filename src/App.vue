@@ -109,9 +109,9 @@
       </div>
     </aside>
 
-    <div class="zoomModalBackground" v-if="zoomedCard"></div>
+    <div class="zoomModalBackground" v-if="(zoomedCard !== null)"></div>
 
-    <aside class="modal" v-if="zoomedCard">
+    <aside class="modal" v-if="(zoomedCard !== null)">
       <button
         class="close button__single button__white"
         @click="cardZoom(null)"

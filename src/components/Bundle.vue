@@ -149,7 +149,19 @@ export default {
 
   computed: {
     bundleTokens() {
-      return this.meta.filter((token) => token.bundle);
+      //return this.meta.filter((token) => token.bundle);
+
+      // custom order: full set, story, then ascending by tokenId
+      return [
+        this.meta.find(t => t.tokenId === 39),
+        this.meta.find(t => t.tokenId === 35),
+        this.meta.find(t => t.tokenId === 32),
+        this.meta.find(t => t.tokenId === 37),
+        this.meta.find(t => t.tokenId === 33),
+        this.meta.find(t => t.tokenId === 38),
+        this.meta.find(t => t.tokenId === 34),
+        this.meta.find(t => t.tokenId === 36),
+      ];
     },
     tokensToBundleDisplay() {
       let tokens = [...this.bundle.tokens];

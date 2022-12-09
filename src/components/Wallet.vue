@@ -57,10 +57,15 @@
         <p class="card__cell card__cell--name">{{ token.name }}</p>
         <div class="card__cell card__cell--supply" v-if="isConnected">
           <h4 v-if="totalSupply[token.tokenId] !== 0">
-            {{ claim.specials[token.tokenId] }} /
-            {{ totalSupply[token.tokenId] }} left
+            <span :style="{ color: claim.specials[token.tokenId] > 0 ? 'var(--white)' : null }">
+              {{ claim.specials[token.tokenId] }} / {{ totalSupply[token.tokenId] }} left
+            </span>
           </h4>
-          <h4 v-else>{{ claim.remaining }} / 4980 left</h4>
+          <h4 v-else>
+            <span :style="{ color: claim.remaining > 0 ? 'var(--white)' : null }">
+              {{ claim.remaining }} / 4980 left
+            </span>
+          </h4>
         </div>
         <div class="card__cell card__cell--supply" v-else>
           <h4

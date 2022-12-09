@@ -14,7 +14,7 @@
       </button>
     </div>
 
-    <div class="button__wrapper" v-else-if="claim.isAvailable">
+    <div class="button__wrapper" v-else-if="(claim.isAvailable && !(claimPostponed && hasAnyTokens))">
       <h2 class="txt__subhead">You are eligible to claim:</h2>
       <div class="claim__wrapper">
         <figure class="card snowglobeToken selected">
@@ -77,6 +77,8 @@
       >
         Claim Selection
       </button>
+      claimPostponed: {{ claimPostponed }}
+      <button v-if="(hasAnyTokens)" class="button__single button__black" @click="{claimPostponed = true}">Claim Later</button>
       <button class="button__single button__black" href="Buy on OpenSea">
         Buy on OpenSea
       </button>
@@ -285,6 +287,7 @@ export default {
   data() {
     return {
       meta: Meta,
+      claimPostponed: false,
     };
   },
   computed: {

@@ -23,6 +23,7 @@
         :claim="claim"
         :selectedCards="selectedCards"
         @selectCard="selectSingleCard"
+        @cardZoom="cardZoom"
       />
 
       <bundle
@@ -31,6 +32,7 @@
         :claim="claim"
         :selectedBundle="selectedBundle"
         @selectBundle="selectBundle"
+        @cardZoom="cardZoom"
       />
     </main>
 
@@ -65,6 +67,14 @@
         <button @click="cancel" class="cancel">Cancel</button>
         <button @click="confirmUnbundle">Confirm</button>
       </div>
+    </aside>
+
+    <div class="zoomModalBackground" v-if="zoomedCard" />
+
+    <aside class="zoomModal" v-if="zoomedCard">
+      <button class="button__single button__white" @click="cardZoom(null)">Close</button>
+      <p>Loading 3D model...</p>
+      <model-viewer load="() => console.log('loaded')" id="model3d" :src="`/assets/3d/Curio_${zoomedCard}.glb`" camera-controls></model-viewer>
     </aside>
 
   </div>
@@ -104,6 +114,8 @@ const CurioABI = [
 ];
 let web3Modal, Provider, Signer, CURIO;
 
+import '@google/model-viewer';
+
 import WalletComponent from "./components/Wallet.vue";
 import BundleComponent from "./components/Bundle.vue";
 import StatusBarComponent from "./components/StatusBar.vue";
@@ -127,6 +139,7 @@ export default {
       tokensOwned: [],
       selectedCards: [],
       selectedBundle: null,
+      zoomedCard: null,
       meta: Meta,
       claim: {
         isAvailable: false,
@@ -201,7 +214,7 @@ export default {
         Provider.provider.on("accountsChanged", (accounts) => {
           this.fetchAccount();
           this.selectedCards = [];
-          this.selectBundle = null;
+          this.selectedBundle = null;
         });
         this.fetchAccount();
       } catch (err) {
@@ -422,6 +435,9 @@ export default {
         if (this.balances[requirements[i]] === 0) return false;
       }
       return true;
+    },
+    cardZoom(card) {
+      this.zoomedCard = card;
     },
   },
 };

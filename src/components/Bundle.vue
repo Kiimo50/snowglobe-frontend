@@ -8,6 +8,18 @@
         :class="{ selected: selectedBundle === token.tokenId }"
         @click="selectBundle(token.tokenId)"
       >
+        <div class="card__zoom" @click="cardZoom(token.tokenId)">
+          <svg width="24" height="25" viewBox="0 0 24 25" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <g clip-path="url(#clip0_1350_9251)">
+              <path d="M15.5 14.0713H14.71L14.43 13.8013C15.41 12.6613 16 11.1813 16 9.57129C16 5.98129 13.09 3.07129 9.5 3.07129C5.91 3.07129 3 5.98129 3 9.57129C3 13.1613 5.91 16.0713 9.5 16.0713C11.11 16.0713 12.59 15.4813 13.73 14.5013L14 14.7813V15.5713L19 20.5613L20.49 19.0713L15.5 14.0713ZM9.5 14.0713C7.01 14.0713 5 12.0613 5 9.57129C5 7.08129 7.01 5.07129 9.5 5.07129C11.99 5.07129 14 7.08129 14 9.57129C14 12.0613 11.99 14.0713 9.5 14.0713Z" fill="white"/>
+            </g>
+            <defs>
+              <clipPath id="clip0_1350_9251">
+                <rect width="24" height="24" fill="white" transform="translate(0 0.0712891)"/>
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
         <img
           :src="`/assets/images/${token.tokenId}.jpg`"
           width="150"
@@ -149,6 +161,9 @@ export default {
         this.$emit("selectBundle", tokenId);
       }
     },
+    cardZoom(tokenId) {
+      this.$emit("cardZoom", tokenId);
+    }
   },
 };
 </script>

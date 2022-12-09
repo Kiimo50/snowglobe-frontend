@@ -18,7 +18,7 @@
       <h2 class="txt__subhead">You are eligible to claim:</h2>
       <div class="claim__wrapper">
         <figure class="card snowglobeToken selected">
-          <img :src="`/assets/images/1.jpg`" width="150" class="card__img" />
+          <img :src="`/assets/images/0.jpg`" width="150" class="card__img" />
           <p class="card__cell card__cell--name">Raccoon</p>
           <div class="card__cell card__cell--supply">
             <h4>UNLIMITED</h4>
@@ -184,75 +184,6 @@
   column-gap: 22px;
 }
 
-button {
-  height: 40px;
-  font-size: 14px;
-  line-height: 18px;
-  margin-bottom: 16px;
-  box-sizing: content-box;
-  padding: 4px 14px;
-  transition: 150ms ease-in-out;
-  box-shadow: 0px 0px 0px 0px;
-}
-
-button:hover {
-  background: var(--borderGray);
-  color: var(--white);
-  border: var(--borderWhite);
-  box-shadow: var(--glowButton);
-  transition: 150ms ease-in-out;
-}
-
-.button__single {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-  border-radius: 44px;
-}
-
-.button__double {
-  display: flex;
-  flex-direction: row;
-  align-items: center;
-}
-
-.button__double--wrapper {
-  display: flex;
-}
-
-.button__double--right {
-  border-radius: 0 44px 44px 0;
-}
-.button__double--left {
-  border-radius: 44px 0 0 44px;
-}
-
-.button__disabled {
-  background: var(--black);
-  color: var(--borderGray);
-  border: var(--border);
-}
-
-.button__white {
-  background: var(--white);
-  color: var(--black);
-  border: var(--border);
-}
-
-.button__black {
-  background: var(--black);
-  color: var(--white);
-  border: var(--borderWhite);
-}
-
-.button__wrapper {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  align-content: center;
-  justify-content: center;
-  justify-items: center;
-}
 .hero__wrapper {
   height: 100vh;
   border-bottom: var(--border);
@@ -365,21 +296,21 @@ export default {
         );
 
         if (this.selectedBundle === 32) {
-          return `The Cryptograffiti bundle requires a Raccoon, plus snowglobes 11, 12 and 13.`;
+          return `The Cryptograffiti bundle requires a Raccoon, plus snowglobes 11, 12 and 13`;
         } else if (this.selectedBundle === 33) {
-          return `The Cryptopop bundle requires a Raccoon, plus snowglobes 17, 18, 19, and 17b.`;
+          return `The Cryptopop bundle requires a Raccoon, plus snowglobes 17, 18, 19, and 17b`;
         } else if (this.selectedBundle === 34) {
-          return `The Daniel bundle requires a Raccoon, plus snowglobes 24, 25 and 26.`;
+          return `The Daniel bundle requires a Raccoon, plus snowglobes 24, 25 and 26`;
         } else if (this.selectedBundle === 35) {
-          return `The Full Set bundle requires a Raccoon, plus each snowglobe from 1-30.`;
+          return `The Full Set bundle requires a Raccoon, plus each snowglobe from 1-30`;
         } else if (this.selectedBundle === 36) {
-          return `The Maximus bundle requires a Raccoon, plus snowglobes 27, 28 and 29.`;
+          return `The Maximus bundle requires a Raccoon, plus snowglobes 27, 28 and 29`;
         } else if (this.selectedBundle === 37) {
-          return `The Phneep bundle requires a Raccoon, plus snowglobes 14, 15 and 16.`;
+          return `The Phneep bundle requires a Raccoon, plus snowglobes 14, 15 and 16`;
         } else if (this.selectedBundle === 38) {
-          return `The Robek bundle requires a Racoon, plus snowgloves 21, 22 and 23.`;
+          return `The Robek bundle requires a Racoon, plus snowgloves 21, 22 and 23`;
         } else if (this.selectedBundle === 39) {
-          return `The Story unbundle requires a Raccoon, plus each of the first 10 snowglobes.`;
+          return `The Story unbundle requires a Raccoon, plus each of the first 10 snowglobes`;
         }
       }
 

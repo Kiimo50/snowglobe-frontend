@@ -31,12 +31,12 @@
   { "tokenId": 29, "name": "Yellow", "bundle": false, "totalSupply": 30 },
   { "tokenId": 30, "name": "Eclipse", "bundle": false, "totalSupply": 82 },
   { "tokenId": 31, "name": "UASFb", "bundle": false, "totalSupply": 50 },
-  { "tokenId": 32, "name": "Crypto Graffiti", "bundle": true, "tokens": [0, 11, 12, 13] },
-  { "tokenId": 33, "name": "Crypto Pop", "bundle": true, "tokens": [0, 17, 18, 19, 31] },
+  { "tokenId": 32, "name": "Cryptograffiti", "bundle": true, "tokens": [0, 11, 12, 13] },
+  { "tokenId": 33, "name": "Cryptopop", "bundle": true, "tokens": [0, 17, 18, 19, 31] },
   { "tokenId": 34, "name": "Daniel", "bundle": true, "tokens": [0, 24, 25, 26] },
   {
     "tokenId": 35,
-    "name": "Full",
+    "name": "Full Set",
     "bundle": true,
     "tokens": [
       0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20,

@@ -103,7 +103,7 @@
         <button @click="cancel" class="cancel button__single button__black">
           Cancel
         </button>
-        <button @click="confirmBundle" class="button__single button__white">
+        <button @click="confirmUnbundle" class="button__single button__white">
           Confirm
         </button>
       </div>

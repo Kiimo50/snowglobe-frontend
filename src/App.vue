@@ -19,6 +19,7 @@
           )
         "
         :allowUnbundle="selectedBundle && balances[selectedBundle] > 0"
+        :paused="paused"
         @connect="connect"
         @disconnect="disconnect"
         @claim="initClaim"
@@ -166,6 +167,7 @@ const CurioABI = [
   "function claim (uint256,uint16,bytes) public",
   "function bundle (uint256[]) public",
   "function unbundle (uint256) public",
+  "function paused () public view returns (bool)",
 ];
 let web3Modal, Provider, Signer, CURIO;
 
@@ -189,6 +191,7 @@ export default {
       showBundleModal: false,
       showUnbundleModal: false,
       isConnected: false,
+      paused: false,
       walletAddress: null,
       balances: [],
       tokensOwned: [],
@@ -247,13 +250,15 @@ export default {
         }, // required
       });
 
-      console.log(
+      console.debug(
         "web3Modal not undefined: ",
         typeof web3Modal !== "undefined"
       );
-      console.log("web3Modal.cashedProvider: ", web3Modal.cachedProvider);
+      console.debug("web3Modal.cashedProvider: ", web3Modal.cachedProvider);
       if (typeof web3Modal !== "undefined" && web3Modal.cachedProvider)
         this.connect();
+
+      this.getPausedState();
     } catch (err) {
       console.error(err);
     }
@@ -331,6 +336,7 @@ export default {
         this.walletAddress = await Signer.getAddress();
         this.isConnected = true;
 
+        this.getPausedState();
         this.getClaimData();
         this.getTokensOwned();
       }
@@ -373,6 +379,12 @@ export default {
           }
           return owned;
         }, []);
+      }
+    },
+    async getPausedState() {
+      if (this.isConnected) {
+        this.paused = await CURIO.paused();
+        console.debug("paused: ", this.paused);
       }
     },
     async initClaim() {

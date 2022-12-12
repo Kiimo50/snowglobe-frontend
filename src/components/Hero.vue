@@ -6,11 +6,22 @@
       <h2 class="txt__subhead">
         Exclusive collectibles for Curio Card holders
       </h2>
+
       <button class="button__single button__white" @click="connectCallback">
         Connect Wallet
       </button>
+
       <button class="button__single button__black" href="Buy on OpenSea">
         Buy on OpenSea
+      </button>
+    </div>
+
+    <div class="button__wrapper" v-else-if="paused">
+      <h2 class="txt__subhead">
+        <strong>Contract is paused!</strong> <br />Waiting to begin...
+      </h2>
+      <button disabled class="button__disabled button__single">
+        Claim Snowglobe
       </button>
     </div>
 
@@ -77,7 +88,6 @@
       >
         Claim Selection
       </button>
-      claimPostponed: {{ claimPostponed }}
       <button v-if="(hasAnyTokens)" class="button__single button__black" @click="{claimPostponed = true}">Claim Later</button>
       <button class="button__single button__black" href="Buy on OpenSea">
         Buy on OpenSea
@@ -252,6 +262,10 @@ export default {
       default: false,
     },
     allowUnbundle: {
+      type: Boolean,
+      default: false,
+    },
+    paused: {
       type: Boolean,
       default: false,
     },

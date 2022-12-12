@@ -11,7 +11,7 @@ if (typeof API_URL == 'undefined') {
   process.exit(1);
 }
 
-const FORK_DEPLOY = 15933355; // Shortly after LIVE deployment
+const FORK_DEPLOY = 16170580; // Shortly after LIVE deployment
 
 // This is a sample Hardhat task. To learn how to create your own go to
 // https://hardhat.org/guides/create-task.html

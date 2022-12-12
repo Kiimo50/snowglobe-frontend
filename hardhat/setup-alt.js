@@ -16,7 +16,7 @@ async function makeClaim(signer, recipient, nonce) {
 
   CURIOS = await ethers.getContractAt(
     curioABI,
-    '0xE642b4c4f4be390cADfb6E3f9d50F740F7A04E56'
+    '0xe6311396150B2F33c870475F25f8943275fE0FF1'
   );
   console.log(`CURIOS Live: ${CURIOS.address}`);
 

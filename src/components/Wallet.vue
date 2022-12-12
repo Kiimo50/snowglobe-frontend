@@ -43,7 +43,7 @@
           </svg>
         </div>
         <img
-          :src="`/assets/images/${token.tokenId}.jpg`"
+          :src="`./assets/images/${token.tokenId}.jpg`"
           width="150"
           :class="{
             grayscale: tokenOwned(token.tokenId) === 0,
@@ -74,7 +74,9 @@
           >
             {{ totalSupply[token.tokenId] }}x
           </h4>
-          <h4 v-else>∞</h4>
+          <h4 v-else>
+            4980x
+          </h4>
         </div>
         <div class="card__cell card__cell--owned">
           <h4

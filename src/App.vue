@@ -53,7 +53,7 @@
     </main>
 
     <aside class="modal" v-if="transaction.error.state">
-      <img class="icon__sad" src="/assets/sad-mac.png" alt="sad mac" />
+      <img class="icon__sad" src="./assets/sad-mac.png" alt="sad mac" />
       <p><strong>There was an error.</strong></p>
       <p style="word-break: break-all">{{ transaction.error.message }}</p>
       <button
@@ -64,7 +64,7 @@
       </button>
     </aside>
     <aside class="modal" v-else-if="transaction.processing">
-      <img src="/assets/hourglass.gif" alt="loading" />
+      <img src="./assets/hourglass.gif" alt="loading" />
       <p>Processing transaction...</p>
     </aside>
     <aside class="modal" v-else-if="showBundleModal">
@@ -119,11 +119,11 @@
       >
         Close
       </button>
-      <p class="loading-3d">Loading 3D model...</p>
+      <p style="position: fixed">Loading 3D model...</p>
       <model-viewer
         load="() => console.log('loaded')"
         id="model3d"
-        :src="`/assets/3d/Curio_${zoomedCard}.glb`"
+        :src="`./assets/3d/Curio_${zoomedCard}.glb`"
         camera-controls
       ></model-viewer>
     </aside>

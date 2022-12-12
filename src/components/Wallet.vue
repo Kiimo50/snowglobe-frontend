@@ -43,7 +43,7 @@
           </svg>
         </div>
         <img
-          :src="`/assets/images/${token.tokenId}.jpg`"
+          :src="`./assets/images/${token.tokenId}.jpg`"
           width="150"
           :class="{
             grayscale: tokenOwned(token.tokenId) === 0,

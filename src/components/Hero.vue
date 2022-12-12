@@ -29,7 +29,7 @@
       <h2 class="txt__subhead">You are eligible to claim:</h2>
       <div class="claim__wrapper">
         <figure class="card snowglobeToken selected">
-          <img :src="`/assets/images/0.jpg`" width="150" class="card__img" />
+          <img :src="`./assets/images/0.jpg`" width="150" class="card__img" />
           <p class="card__cell card__cell--name">Raccoon</p>
           <div class="card__cell card__cell--supply">
             <h4>{{ claim.remaining }} / 4980 left</h4>
@@ -44,7 +44,7 @@
           v-if="!this.fullyClaimed && this.selectedToken != null"
         >
           <img
-            :src="`/assets/images/${this.selectedToken.tokenId}.jpg`"
+            :src="`./assets/images/${this.selectedToken.tokenId}.jpg`"
             width="150"
             class="card__img"
           />

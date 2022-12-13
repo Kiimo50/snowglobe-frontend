@@ -1,6 +1,6 @@
 <template>
   <section class="hero__wrapper" id="">
-    <h1>Curio Snowglobes</h1>
+    <h1>Curio's Snow Globes</h1>
 
     <div class="button__wrapper" v-if="!isConnected">
       <h2 class="txt__subhead">
@@ -21,7 +21,7 @@
         <strong>Contract is paused!</strong> <br />Waiting to begin...
       </h2>
       <button disabled class="button__disabled button__single">
-        Claim Snowglobe
+        Claim Snow Globe
       </button>
     </div>
 
@@ -89,7 +89,7 @@
         Claim Selection
       </button>
       <button v-if="(hasAnyTokens)" class="button__single button__black" @click="{claimPostponed = true}">Claim Later</button>
-      <button class="button__single button__black" href="Buy on OpenSea">
+      <button class="button__single button__black" href="https://opensea.io/collection/curios-snow-globes">
         Buy on OpenSea
       </button>
     </div>
@@ -126,7 +126,7 @@
 
     <div class="button__wrapper" v-else>
       <h2 class="txt__subhead">
-        You are not eligible to claim any snowglobes.
+        You are not eligible to claim any snow globes.
       </h2>
       <button class="button__single button__black" href="Buy on OpenSea">
         Buy on OpenSea

@@ -1,5 +1,7 @@
 # Curio Snow Globes
 
+Check it out live: **https://dao.curio.cards/snowglobes**
+
 ## Getting Started
 
 Before you begin development you will need to create a `.env` file in BOTH the root directory and `hardhat` directories using the `DOTENV_TEMPLATE.txt` as a guide. To complete these you will need an API key from both https://www.alchemy.com/ and https://www.infura.io/. These can just be free/development keys.

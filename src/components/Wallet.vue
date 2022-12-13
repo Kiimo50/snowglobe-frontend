@@ -74,7 +74,7 @@
           >
             {{ totalSupply[token.tokenId] }}x
           </h4>
-          <h4 v-else>
+          <h4 v-else style="text-transform: lowercase">
             4980x
           </h4>
         </div>

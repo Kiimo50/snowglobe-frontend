@@ -42,37 +42,37 @@ async function makeClaim(signer, recipient, nonce) {
   // Claim Almost Everything
   let specials = [
     0, // Globe #0; Raccoon Supply not Tracked here
-    111, // Globe #1; Apples
-    135, // Globe #2; Nuts
-    151, // Globe #3; Berries
-    47, // Globe #4; Clay
-    40, // Globe #5; Paint
-    41, // Globe #6; Ink
-    182, // Globe #7; Sculpture
-    195, // Globe #8; Painting
-    177, // Globe #9; Book
-    191, // Globe #10; Future
-    195, // Globe #11; BTC Keys
-    179, // Globe #12; Mine Bitcoin
-    196, // Globe #13; BTC
-    46, // Globe #14; CryptoCurrency
-    33, // Globe #15; DigitalCash
-    47, // Globe #16; Original
-    43, // Globe #17; UASF
-    42, // Globe #18; To The Moon
-    43, // Globe #19; Dogs Trading
-    151, // Globe #20; MadBitcoins (Should be 152 - leaving one)
-    30, // Globe #21; The Wizard
-    30, // Globe #22; The Bard
-    30, // Globe #23; The Barbarian
-    30, // Globe #24; Complexity
-    30, // Globe #25; Passion
-    30, // Globe #26; Education
-    57, // Globe #27; Blue
-    39, // Globe #28; Pink
-    30, // Globe #29; Yellow
-    82, // Globe #30; Eclipse
-    50, // Globe #17b; UASFb
+    107, // Globe #1; Apples
+    131, // Globe #2; Nuts
+    147, // Globe #3; Berries
+    43, // Globe #4; Clay
+    36, // Globe #5; Paint
+    37, // Globe #6; Ink
+    178, // Globe #7; Sculpture
+    191, // Globe #8; Painting
+    173, // Globe #9; Book
+    187, // Globe #10; Future
+    191, // Globe #11; BTC Keys
+    175, // Globe #12; Mine Bitcoin
+    192, // Globe #13; BTC
+    42, // Globe #14; CryptoCurrency
+    29, // Globe #15; DigitalCash
+    43, // Globe #16; Original
+    39, // Globe #17; UASF
+    38, // Globe #18; To The Moon
+    39, // Globe #19; Dogs Trading
+    147, // Globe #20; MadBitcoins (Should be 148 - leaving one)
+    27, // Globe #21; The Wizard
+    27, // Globe #22; The Bard
+    27, // Globe #23; The Barbarian
+    27, // Globe #24; Complexity
+    27, // Globe #25; Passion
+    27, // Globe #26; Education
+    53, // Globe #27; Blue
+    35, // Globe #28; Pink
+    27, // Globe #29; Yellow
+    78, // Globe #30; Eclipse
+    46, // Globe #17b; UASFb
   ];
 
   let nonce = 2;

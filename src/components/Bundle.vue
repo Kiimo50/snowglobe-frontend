@@ -185,21 +185,21 @@ export default {
     },
     formatRequirementsString(tokenId) {
       if (tokenId === 32) {
-        return "11, 12, 13";
+        return "Raccoon + 11, 12, 13";
       } else if (tokenId === 33) {
-        return "17, 18, 19, 17b";
+        return "Raccoon + 17, 18, 19, 17b";
       } else if (tokenId === 34) {
-        return "24, 25, 26";
+        return "Raccoon + 24, 25, 26";
       } else if (tokenId === 35) {
-        return "1-30";
+        return "Raccoon + 1-30";
       } else if (tokenId === 36) {
-        return "27, 28, 29";
+        return "Raccoon + 27, 28, 29";
       } else if (tokenId === 37) {
-        return "14, 15, 16";
+        return "Raccoon + 14, 15, 16";
       } else if (tokenId === 38) {
-        return "21, 22, 23";
+        return "Raccoon + 21, 22, 23";
       } else if (tokenId === 39) {
-        return "1-10";
+        return "Raccoon + 1-10";
       }
     },
     selectBundle(tokenId) {

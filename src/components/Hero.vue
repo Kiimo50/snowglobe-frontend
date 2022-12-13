@@ -11,7 +11,7 @@
         Connect Wallet
       </button>
 
-      <button class="button__single button__black" href="Buy on OpenSea">
+      <button class="button__single button__black" @click="visitOpenSea">
         Buy on OpenSea
       </button>
     </div>
@@ -89,7 +89,7 @@
         Claim Selection
       </button>
       <button v-if="(hasAnyTokens)" class="button__single button__black" @click="{claimPostponed = true}">Claim Later</button>
-      <button class="button__single button__black" href="https://opensea.io/collection/curios-snow-globes">
+      <button class="button__single button__black" @click="visitOpenSea">
         Buy on OpenSea
       </button>
     </div>
@@ -119,7 +119,7 @@
           Unbundle
         </button>
       </div>
-      <button class="button__single button__black" href="Buy on OpenSea">
+      <button class="button__single button__black" @click="visitOpenSea">
         Buy on OpenSea
       </button>
     </div>
@@ -128,7 +128,7 @@
       <h2 class="txt__subhead">
         You are not eligible to claim any snow globes.
       </h2>
-      <button class="button__single button__black" href="Buy on OpenSea">
+      <button class="button__single button__black" @click="visitOpenSea">
         Buy on OpenSea
       </button>
     </div>
@@ -354,6 +354,9 @@ export default {
     unbundleCallback() {
       this.$emit("unbundle");
     },
+    visitOpenSea() {
+      window.location.href = "https://opensea.io/collection/curios-snow-globes"
+    }
   },
 };
 </script>

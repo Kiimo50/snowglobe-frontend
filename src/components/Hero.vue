@@ -355,7 +355,10 @@ export default {
       this.$emit("unbundle");
     },
     visitOpenSea() {
-      window.location.href = "https://opensea.io/collection/curios-snow-globes"
+      window.open(
+        'https://opensea.io/collection/curios-snow-globes',
+        '_blank'
+      );
     }
   },
 };

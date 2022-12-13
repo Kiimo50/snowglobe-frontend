@@ -319,17 +319,7 @@ export default {
         .flat();
     },
     async fetchAccount() {
-      let accounts;
       try {
-        accounts = await Provider.send("eth_requestAccounts", []);
-      } catch (e) {
-        console.error("Failed to Get Address", e);
-
-        this.isConnected = false;
-        this.walletAddress = null;
-        return;
-      }
-      if (accounts && accounts[0]) {
         Signer = await Provider.getSigner();
         CURIO = new ethers.Contract(CURIO_ADDR, CurioABI, Signer);
 
@@ -339,6 +329,10 @@ export default {
         this.getPausedState();
         this.getClaimData();
         this.getTokensOwned();
+      } catch (e) {
+        console.error('Failed to Get Address', e);
+        this.isConnected = false;
+        this.walletAddress = null;
       }
     },
     async getClaimData() {

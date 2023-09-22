@@ -1,8 +1,4 @@
-# Curio Snow Globes
 
-Check it out live: **https://dao.curio.cards/snowglobes**
-
-## Getting Started
 
 Before you begin development you will need to create a `.env` file in BOTH the root directory and `hardhat` directories using the `DOTENV_TEMPLATE.txt` as a guide. To complete these you will need an API key from both https://www.alchemy.com/ and https://www.infura.io/. These can just be free/development keys.
 
@@ -22,12 +18,4 @@ This will unpause the contract and claim a number of test mints to the first 3 H
 
 ## Build
 
-Once development is complete you can run the following command to build the production version of the site:
-
-`docker-compose run --no-deps --rm web npm run build `
-
-The contents of the `public` folder can then be published.
-
-## Go Live
-
-Prior to Go Live we will need to swap the `src/data/claims.json` with the live claims.
+Once development is complete you can run the following command to build the production version of t
